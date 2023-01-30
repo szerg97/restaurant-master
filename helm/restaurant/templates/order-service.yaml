@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service-internal
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      name: order-service
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: order-service-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-app
+spec:
+  selector:
+    matchLabels:
+      app: order-service-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: order-service-app
+    spec:
+      containers:
+        - name: "order-service"
+          image: "szalaigeri/order-service:1.0.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: WAREHOUSE_URL
+              value: {{ .Values.warehouse.url }}
+            - name: LOGGING_ENABLED
+              value: {{ .Values.orderService.logging.enabled | quote }}

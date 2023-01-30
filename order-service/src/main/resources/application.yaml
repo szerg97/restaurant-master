@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+warehouse:
+  url: ${WAREHOUSE_URL:localhost}
+
+logging:
+  enabled: ${LOGGING_ENABLED:true}

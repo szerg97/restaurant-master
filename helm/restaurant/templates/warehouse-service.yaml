@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehouse-service-internal
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8081
+      name: warehouse
+      targetPort: 8081
+      protocol: TCP
+  selector:
+    app: warehouse-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warehouse-app
+spec:
+  selector:
+    matchLabels:
+      app: warehouse-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: warehouse-app
+    spec:
+      containers:
+        - name: "warehouse"
+          image: "szalaigeri/warehouse:1.0.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: DATASOURCE_URL
+              value: {{ .Values.data.url }}
+            - name: DATASOURCE_ENABLED
+              value: {{ .Values.data.enabled | quote }}

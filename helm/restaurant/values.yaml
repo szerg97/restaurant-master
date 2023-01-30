@@ -1,0 +1,10 @@
+warehouse:
+  url: warehouse-service-internal
+
+orderService:
+  logging:
+    enabled: true
+
+data:
+  url: jdbc:postgresql://postgres:5432/warehouse
+  enabled: true
