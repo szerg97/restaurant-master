@@ -7,7 +7,7 @@ metadata:
 spec:
   #we use local node storage here!
   #kubectl get storageclass
-  storageClassName: hostpath
+  storageClassName: standard
   capacity:
     storage: 1Gi
   accessModes:
@@ -20,7 +20,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: example-claim
 spec:
-  storageClassName: hostpath
+  storageClassName: standard
   accessModes:
     - ReadWriteOnce
   resources:
