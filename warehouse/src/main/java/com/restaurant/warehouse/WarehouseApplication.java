@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
-@EnableCaching
 public class WarehouseApplication {
 
     @Autowired(required = false)

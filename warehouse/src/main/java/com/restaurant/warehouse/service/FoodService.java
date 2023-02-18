@@ -16,7 +16,6 @@ public class FoodService {
     @Autowired
     private FoodRepository repository;
 
-    @Cacheable(value="FoodDetails", key="#id")
     public Food getById(Long id){
         Optional<Food> food = repository.findById(id);
         if (food.isPresent()){
@@ -33,13 +32,11 @@ public class FoodService {
         throw new IllegalStateException("Food was not found");
     }
 
-    @Cacheable(value="FoodDetails", key="#root.method.name")
     public List<Food> getAll(){
         System.out.println("from DB");
         return repository.findAll();
     }
 
-    @CachePut(value="FoodDetails", key="#id")
     public Food save(Food food, Long id){
         Food saved = repository.saveAndFlush(food);
         if (saved.getId() != null){

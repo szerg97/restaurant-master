@@ -16,7 +16,7 @@ public class LoggerService {
 
     @Scheduled(fixedRate = 2000)
     public void logCurrentTime(){
-        String format = MessageFormat.format("The current time is {}", LocalDateTime.now());
+        String format = MessageFormat.format("The current time is {0}", LocalDateTime.now());
         log.info(format);
     }
 }

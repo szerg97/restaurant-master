@@ -16,14 +16,3 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-
-  data:
-    redis:
-      repositories:
-        enabled: false
-
-  cache:
-    type: redis
-    redis:
-      cache-null-values: true
-      time-to-live: 10000
