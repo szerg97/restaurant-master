@@ -29,7 +29,7 @@ spec:
       containers:
         - name: "warehouse"
           image: "szalaigeri/warehouse:1.0.0"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
           env:
