@@ -32,7 +32,7 @@ public class WarehouseController {
 
     @PostMapping("/foods")
     public Food save(@RequestBody Food food){
-        return foodService.save(food, food.getId());
+        return foodService.save(food);
     }
 
     @PostMapping("/serve")

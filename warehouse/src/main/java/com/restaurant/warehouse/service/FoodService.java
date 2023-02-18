@@ -3,8 +3,6 @@ package com.restaurant.warehouse.service;
 import com.restaurant.warehouse.model.Food;
 import com.restaurant.warehouse.repository.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,12 +35,12 @@ public class FoodService {
         return repository.findAll();
     }
 
-    public Food save(Food food, Long id){
-        Food saved = repository.saveAndFlush(food);
-        if (saved.getId() != null){
-            return saved;
+    public Food save(Food food){
+        Optional<Food> existingFood = repository.findByName(food.getName());
+        if(existingFood.isPresent()){
+            throw new IllegalStateException("Food could not be saved");
         }
-        throw new IllegalStateException("Food could not be saved");
+        return repository.saveAndFlush(food);
     }
 
     public Food delete(Long id){
