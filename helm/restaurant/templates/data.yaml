@@ -1,4 +1,32 @@
-{{ if eq (.Values.data.enabled) true }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: example-volume
+  labels:
+    type: local
+spec:
+  #we use local node storage here!
+  #kubectl get storageclass
+  storageClassName: hostpath
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: example-claim
+spec:
+  storageClassName: hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,45 +38,16 @@ data:
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: postgres-pv-volume  # Sets PV's name
-  labels:
-    type: local  # Sets PV's type to local
-    app: postgres
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 5Gi # Sets PV Volume
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/mnt/data"
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: postgres-pv-claim  # Sets name of PVC
-  labels:
-    app: postgres
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany  # Sets read and write access
-  resources:
-    requests:
-      storage: 5Gi  # Sets volume size
----
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: postgres  # Sets Deployment name
+  name: postgres
 spec:
-  replicas: 1
+  serviceName: postgres
   selector:
     matchLabels:
       app: postgres
+  replicas: 1
   template:
     metadata:
       labels:
@@ -56,31 +55,32 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:10.1 # Sets Image
-          imagePullPolicy: IfNotPresent
+          image: postgres:10.4
+          imagePullPolicy: "IfNotPresent"
           ports:
-            - containerPort: 5432  # Exposes container port
+            - containerPort: 5432
           envFrom:
             - configMapRef:
                 name: postgres-config
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: warehouse
+            - name: data
+              mountPath: /var/lib/postgresql/data
       volumes:
-        - name: warehouse
+        - name: data
           persistentVolumeClaim:
-            claimName: postgres-pv-claim
+            claimName: example-claim
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres # Sets service name
+  name: postgres
   labels:
-    app: postgres # Labels and Selectors
+    app: postgres
 spec:
-  type: ClusterIP # Sets service type
-  ports:
-    - port: 5432 # Sets port to run the postgres application
   selector:
     app: postgres
-{{ end }}
+  ports:
+    - protocol: TCP
+      name: http
+      port: 5432
+      targetPort: 5432
