@@ -1,7 +1,6 @@
 package com.restaurant.warehouse.controller;
 
 import com.restaurant.warehouse.WarehouseApplication;
-import com.restaurant.warehouse.repository.FoodRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +26,10 @@ public class WarehouseControllerTest {
 
     @Autowired
     private MockMvc mvc;
-
+/*
     @Autowired
     private FoodRepository repository;
-/*
+
     @Test
     public void givenEmployees_whenGetEmployees_thenStatus200()
             throws Exception {
