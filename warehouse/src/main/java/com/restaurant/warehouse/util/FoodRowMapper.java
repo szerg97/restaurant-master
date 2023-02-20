@@ -12,7 +12,7 @@ public class FoodRowMapper implements RowMapper<Food> {
         return new Food(
                 resultSet.getLong("id"),
                 resultSet.getString("name"),
-                LocalDateTime.parse(resultSet.getString("timestamp"))
+                resultSet.getTimestamp("timestamp").toLocalDateTime()
         );
     }
 }
