@@ -1,8 +1,7 @@
 package com.restaurant.warehouse.service;
 
+import com.restaurant.warehouse.data.FoodDao;
 import com.restaurant.warehouse.model.Food;
-import com.restaurant.warehouse.repository.FoodRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,44 +10,38 @@ import java.util.Optional;
 @Service
 public class FoodService {
 
-    @Autowired
-    private FoodRepository repository;
+    private final FoodDao foodDao;
 
-    public Food getById(Long id){
-        Optional<Food> food = repository.findById(id);
-        if (food.isPresent()){
-            return food.get();
-        }
-        throw new IllegalStateException("Food was not found");
+    public FoodService(FoodDao foodDao) {
+        this.foodDao = foodDao;
     }
 
-    public Food getByName(String name){
-        Optional<Food> food = repository.findByName(name);
-        if (food.isPresent()){
-            return food.get();
-        }
-        throw new IllegalStateException("Food was not found");
+    public List<Food> getFoods() {
+        return foodDao.selectFoods();
     }
 
-    public List<Food> getAll(){
-        System.out.println("from DB");
-        return repository.findAll();
+    public void addNewFood(Food food) {
+        // TODO: check if food exists
+        int result = foodDao.insertFood(food);
+        if (result != 1) {
+            throw new IllegalStateException("oops something went wrong");
+        }
     }
 
-    public Food save(Food food){
-        Optional<Food> existingFood = repository.findByName(food.getName());
-        if(existingFood.isPresent()){
-            throw new IllegalStateException("Food could not be saved");
-        }
-        return repository.saveAndFlush(food);
+    public void deleteFood(long id) {
+        Optional<Food> foods = foodDao.selectFoodById(id);
+        foods.ifPresentOrElse(food -> {
+            int result = foodDao.deleteFood(id);
+            if (result != 1) {
+                throw new IllegalStateException("oops could not delete food");
+            }
+        }, () -> {
+            throw new IllegalStateException(String.format("Food with id %s not found", id));
+        });
     }
 
-    public Food delete(Long id){
-        Optional<Food> food = repository.findById(id);
-        if (food.isPresent()){
-            repository.delete(food.get());
-            return food.get();
-        }
-        throw new IllegalStateException("Food could not be deleted");
+    public Food getFood(long id) {
+        return foodDao.selectFoodById(id)
+                .orElseThrow(() -> new IllegalStateException(String.format("Food with id %s not found", id)));
     }
 }

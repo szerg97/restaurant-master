@@ -20,25 +20,36 @@ public class WarehouseController {
     @Value("${spring.datasource.url}")
     private static String DATABASE_URL;
 
-    @GetMapping("/meal")
-    public String getMeal(){
-        return "Cheese Burger XXL";
+    private final FoodService movieService;
+
+    public WarehouseController(FoodService movieService) {
+        this.movieService = movieService;
     }
 
-    @GetMapping("/foods")
-    public List<Food> getAll(){
-        return foodService.getAll();
+    @GetMapping
+    public List<Food> listFoods() {
+        return movieService.getFoods();
     }
 
-    @PostMapping("/foods")
-    public Food save(@RequestBody Food food){
-        return foodService.save(food);
+    @GetMapping("{id}")
+    public Food getFoodId(@PathVariable("id") Integer id) {
+        return movieService.getFood(id);
+    }
+
+    @PostMapping
+    public void addFood(@RequestBody Food movie) {
+        movieService.addNewFood(movie);
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteFood(@PathVariable("id") Integer id) {
+        movieService.deleteFood(id);
     }
 
     @PostMapping("/serve")
     public List<Food> serve(@RequestBody OrderDto dto){
         List<Food> foods = new ArrayList<>();
-        dto.getFoods().forEach(f -> foods.add(foodService.getById(f.getId())));
+        dto.getFoods().forEach(f -> foods.add(foodService.getFood(f.getId())));
         return foods;
     }
 

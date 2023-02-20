@@ -1,7 +1,7 @@
 package com.restaurant.warehouse;
 
 import com.restaurant.warehouse.model.Food;
-import com.restaurant.warehouse.repository.FoodRepository;
+import com.restaurant.warehouse.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -10,13 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @SpringBootApplication
 public class WarehouseApplication {
 
     @Autowired(required = false)
-    private FoodRepository repository;
+    private FoodService service;
 
     @Value("${spring.datasource.enabled}")
     private boolean dataSourceEnabled;
@@ -28,13 +27,11 @@ public class WarehouseApplication {
     @Bean
     public CommandLineRunner commandLineRunner(){
         return args -> {
-            if (dataSourceEnabled && repository.findAll().isEmpty()){
-                repository.saveAll(List.of(
-                        new Food("Bread 80kg", LocalDateTime.of(2023, 1, 27, 0, 0)),
-                        new Food("Meat 400kg", LocalDateTime.of(2023, 1, 27, 1, 27)),
-                        new Food("Salt 500kg", LocalDateTime.of(2023, 1, 27, 2, 30)),
-                        new Food("Sugar 450kg", LocalDateTime.of(2023, 1, 27, 3, 15))
-                ));
+            if (dataSourceEnabled && service.getFoods().isEmpty()){
+                service.addNewFood(new Food(1L, "Bread 80kg", LocalDateTime.now()));
+                service.addNewFood(new Food(2L, "Meat 400kg", LocalDateTime.now()));
+                service.addNewFood(new Food(3L, "Salt 500kg", LocalDateTime.now()));
+                service.addNewFood(new Food(4L, "Sugar 450kg", LocalDateTime.now()));
             }
         };
     }
