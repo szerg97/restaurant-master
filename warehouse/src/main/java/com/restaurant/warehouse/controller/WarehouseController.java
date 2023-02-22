@@ -2,6 +2,7 @@ package com.restaurant.warehouse.controller;
 
 import com.restaurant.warehouse.controller.dto.OrderDto;
 import com.restaurant.warehouse.model.Food;
+import com.restaurant.warehouse.service.DatabaseInfoService;
 import com.restaurant.warehouse.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +22,16 @@ public class WarehouseController {
     private static String DATABASE_URL;
 
     private final FoodService movieService;
+    private final DatabaseInfoService databaseInfoService;
 
-    public WarehouseController(FoodService movieService) {
+    public WarehouseController(FoodService movieService, DatabaseInfoService databaseInfoService) {
         this.movieService = movieService;
+        this.databaseInfoService = databaseInfoService;
+    }
+
+    @GetMapping("/tables")
+    public List<DatabaseInfoService.DatabaseTable> getTables(){
+        return databaseInfoService.getTables("public");
     }
 
     @GetMapping
