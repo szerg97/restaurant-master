@@ -50,7 +50,7 @@ services:
 #      - K6_OUT=influxdb=http://influxdb:8086/k6
 #    volumes:
 #      - ../src/test/k6:/scripts
-#    command: run /scripts/first_uc.js
+#    command: run /scripts/list_100_foods_uc.js
 #    depends_on:
 #      - influxdb
 
