@@ -16,7 +16,10 @@ public class FoodService {
         this.foodDao = foodDao;
     }
 
-    public List<Food> getFoods(int limit) {
+    public List<Food> getFoods(Integer limit) {
+        if (limit == null){
+            limit = 50;
+        }
         return foodDao.selectFoods(limit);
     }
 

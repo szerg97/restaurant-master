@@ -35,7 +35,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/foods")
-    public List<Food> listFoods(@RequestParam(name = "limit") int limit) {
+    public List<Food> listFoods(@RequestParam(name = "limit", required = false) Integer limit) {
         return movieService.getFoods(limit);
     }
 
