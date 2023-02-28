@@ -1,4 +1,13 @@
-INSERT INTO foods (id, name, timestamp) VALUES (1, 'XXL Burger 200g', now());
-INSERT INTO foods (id, name, timestamp) VALUES (2, 'Nachos 150g', now());
-INSERT INTO foods (id, name, timestamp) VALUES (3, 'Cheese Burger 90g', now());
-INSERT INTO foods (id, name, timestamp) VALUES (4, 'Chicken Nuggets 250g', now());
+do $$
+BEGIN
+    FOR r IN 1..10000 LOOP
+        INSERT INTO foods (id, name, timestamp) VALUES(
+            r,
+            'Food ' || r::text,
+            (SELECT timestamp '2023-02-01 00:00:00' +
+                    RANDOM() * (timestamp '2023-03-01 00:00:00' -
+                                timestamp '2023-02-01 00:00:00')
+            ));
+    END LOOP;
+END;
+$$;

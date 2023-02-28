@@ -19,13 +19,13 @@ public class FoodDataAccessService implements FoodDao {
     }
 
     @Override
-    public List<Food> selectFoods() {
+    public List<Food> selectFoods(int limit) {
         var sql = """
                 SELECT id, name, timestamp
                 FROM foods
-                LIMIT 100;
-                 """;
-        return jdbcTemplate.query(sql, new FoodRowMapper());
+                LIMIT ?
+                """;
+        return jdbcTemplate.query(sql, new FoodRowMapper(), limit);
     }
 
     @Override

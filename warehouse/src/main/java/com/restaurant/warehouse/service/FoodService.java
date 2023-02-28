@@ -16,8 +16,8 @@ public class FoodService {
         this.foodDao = foodDao;
     }
 
-    public List<Food> getFoods() {
-        return foodDao.selectFoods();
+    public List<Food> getFoods(int limit) {
+        return foodDao.selectFoods(limit);
     }
 
     public void addNewFood(Food food) {

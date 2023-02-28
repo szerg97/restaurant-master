@@ -34,9 +34,9 @@ public class WarehouseController {
         return databaseInfoService.getTables("public");
     }
 
-    @GetMapping
-    public List<Food> listFoods() {
-        return movieService.getFoods();
+    @GetMapping("/foods")
+    public List<Food> listFoods(@RequestParam(name = "limit") int limit) {
+        return movieService.getFoods(limit);
     }
 
     @GetMapping("{id}")
