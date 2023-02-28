@@ -26,21 +26,5 @@ public class WarehouseControllerTest {
 
     @Autowired
     private MockMvc mvc;
-/*
-    @Autowired
-    private FoodRepository repository;
 
-    @Test
-    public void givenEmployees_whenGetEmployees_thenStatus200()
-            throws Exception {
-
-        createTestEmployee("bob");
-
-        mvc.perform(get("/api/employees")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content()
-                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].name", is("bob")));
-    } */
 }

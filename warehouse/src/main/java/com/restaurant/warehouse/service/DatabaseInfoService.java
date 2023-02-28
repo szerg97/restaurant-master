@@ -30,7 +30,7 @@ public class DatabaseInfoService {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e + "Vmi nem jó dikk");
+            throw new IllegalStateException(e + "There was some trouble during getting the tables");
         }
         return tables;
     }
