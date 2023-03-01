@@ -13,9 +13,11 @@ import java.util.Optional;
 public class FoodDataAccessService implements FoodDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final FoodRowMapper foodRowMapper;
 
-    public FoodDataAccessService(JdbcTemplate jdbcTemplate) {
+    public FoodDataAccessService(JdbcTemplate jdbcTemplate, FoodRowMapper foodRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.foodRowMapper = foodRowMapper;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class FoodDataAccessService implements FoodDao {
                 FROM foods
                 LIMIT ?
                 """;
-        return jdbcTemplate.query(sql, new FoodRowMapper(), limit);
+        return jdbcTemplate.query(sql, foodRowMapper, limit);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class FoodDataAccessService implements FoodDao {
                 FROM foods
                 WHERE id = ?
                  """;
-        return jdbcTemplate.query(sql, new FoodRowMapper(), id)
+        return jdbcTemplate.query(sql, foodRowMapper, id)
                 .stream()
                 .findFirst();
     }
