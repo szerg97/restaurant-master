@@ -22,7 +22,7 @@ export let options = {
             "timeUnit": "1s",
             preAllocatedVUs: 10,
             maxVUs: 50,
-            "stages": [
+            stages: [
                 { "target": 10, "duration": "15s" },
                 { "target": 50, "duration": "35s" },
                 { "target": 0, "duration": "10s" }
@@ -35,7 +35,7 @@ export let options = {
             "timeUnit": "1s",
             preAllocatedVUs: 10,
             maxVUs: 50,
-            "stages": [
+            stages: [
                 { "target": 10, "duration": "15s" },
                 { "target": 50, "duration": "35s" },
                 { "target": 0, "duration": "10s" }
@@ -48,7 +48,7 @@ export let options = {
             "timeUnit": "1s",
             preAllocatedVUs: 10,
             maxVUs: 50,
-            "stages": [
+            stages: [
                 { "target": 10, "duration": "15s" },
                 { "target": 50, "duration": "35s" },
                 { "target": 0, "duration": "10s" }
