@@ -60,7 +60,7 @@ class FoodServiceTest {
     @Test
     void itShouldAddNewFood() {
         //Given
-        Food food = new Food(1L, "Food 1", LocalDateTime.now());
+        Food food = new Food(1L, "Food 1");
         given(foodDao.insertFood(food)).willReturn(1);
         //When
         underTest.addNewFood(food);
@@ -72,7 +72,7 @@ class FoodServiceTest {
     @Test
     void itShouldNotAddNewFoodWhenAlreadyExistsThrow() {
         //Given
-        Food food = new Food(1L, "Food 1", LocalDateTime.now());
+        Food food = new Food(1L, "Food 1");
         given(foodDao.insertFood(food)).willReturn(0);
         //When
         //Then
@@ -85,7 +85,7 @@ class FoodServiceTest {
     void itShouldDeleteFood() {
         //Given
         long id = 1L;
-        given(foodDao.selectFoodById(id)).willReturn(Optional.of(new Food(1L, "Food 1", LocalDateTime.now())));
+        given(foodDao.selectFoodById(id)).willReturn(Optional.of(new Food(1L, "Food 1")));
         given(foodDao.deleteFood(id)).willReturn(1);
 
         //When
@@ -99,7 +99,7 @@ class FoodServiceTest {
     void itShouldNotDeleteFood() {
         //Given
         long id = 1L;
-        given(foodDao.selectFoodById(id)).willReturn(Optional.of(new Food(1L, "Food 1", LocalDateTime.now())));
+        given(foodDao.selectFoodById(id)).willReturn(Optional.of(new Food(1L, "Food 1")));
         given(foodDao.deleteFood(id)).willReturn(0);
 
         //When
@@ -126,7 +126,7 @@ class FoodServiceTest {
     void itShouldGetFood() {
         //Given
         long id = 1;
-        Food expected = new Food(1L, "Food 1", LocalDateTime.now());
+        Food expected = new Food(1L, "Food 1");
         given(foodDao.selectFoodById(id)).willReturn(Optional.of(expected));
 
         //When

@@ -33,12 +33,12 @@ public class FoodDataAccessService implements FoodDao {
     @Override
     public int insertFood(Food food) {
         var sql = """
-                INSERT INTO foods(id, name, timestamp)
-                VALUES (?, ?, ?);
+                INSERT INTO foods(name, timestamp)
+                VALUES (?, ?);
                  """;
         return jdbcTemplate.update(
                 sql,
-                food.getId(), food.getName(), food.getTimestamp()
+                food.getName(), food.getTimestamp()
         );
     }
 
@@ -59,6 +59,18 @@ public class FoodDataAccessService implements FoodDao {
                 WHERE id = ?
                  """;
         return jdbcTemplate.query(sql, foodRowMapper, id)
+                .stream()
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Food> selectFoodByName(String name) {
+        var sql = """
+                SELECT id, name, timestamp
+                FROM foods
+                WHERE name = ?
+                 """;
+        return jdbcTemplate.query(sql, foodRowMapper, name)
                 .stream()
                 .findFirst();
     }

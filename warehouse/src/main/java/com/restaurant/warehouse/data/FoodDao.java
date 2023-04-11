@@ -6,7 +6,8 @@ import java.util.Optional;
 
 public interface FoodDao {
     List<Food> selectFoods(int limit);
-    int insertFood(Food movie);
+    int insertFood(Food food);
     int deleteFood(Long id);
     Optional<Food> selectFoodById(long id);
+    Optional<Food> selectFoodByName(String name);
 }

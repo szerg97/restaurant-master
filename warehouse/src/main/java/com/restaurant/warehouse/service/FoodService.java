@@ -1,5 +1,6 @@
 package com.restaurant.warehouse.service;
 
+import com.restaurant.warehouse.controller.dto.FoodRequest;
 import com.restaurant.warehouse.data.FoodDao;
 import com.restaurant.warehouse.exception.ResourceAlreadyExistsException;
 import com.restaurant.warehouse.exception.ResourceNotFoundException;
@@ -25,13 +26,13 @@ public class FoodService {
         return foodDao.selectFoods(limit);
     }
 
-    public void addNewFood(Food food) {
+    public void addNewFood(FoodRequest request) {
         // TODO: check if food exists
-        Optional<Food> optional = foodDao.selectFoodById(food.getId());
+        Optional<Food> optional = foodDao.selectFoodByName(request.name());
         optional.ifPresentOrElse(f -> {
-            throw new ResourceAlreadyExistsException(String.format("Food with id %s already exists", food.getId()));
+            throw new ResourceAlreadyExistsException(String.format("Food with name %s already exists", request.name()));
         }, () ->{
-            int result = foodDao.insertFood(food);
+            int result = foodDao.insertFood(Food.fromRequest(request));
             if (result != 1) {
                 throw new IllegalStateException("oops something went wrong");
             }
@@ -43,7 +44,7 @@ public class FoodService {
         optional.ifPresentOrElse(food -> {
             int result = foodDao.deleteFood(id);
             if (result != 1) {
-                throw new IllegalStateException("oops could not delete food");
+                throw new IllegalStateException("oops could not delete food: " + food);
             }
         }, () -> {
             throw new ResourceNotFoundException(String.format("Food with id %s not found", id));
@@ -53,5 +54,10 @@ public class FoodService {
     public Food getFood(long id) {
         return foodDao.selectFoodById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Food with id %s not found", id)));
+    }
+
+    public Food getFood(String name) {
+        return foodDao.selectFoodByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Food with name %s not found", name)));
     }
 }

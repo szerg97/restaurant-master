@@ -1,5 +1,6 @@
 package com.restaurant.warehouse.model;
 
+import com.restaurant.warehouse.controller.dto.FoodRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +26,15 @@ public class Food {
         this.id = id;
         this.name = name;
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
+    }
+
+    public Food(String name) {
+        this.name = name;
+        this.timestamp = Timestamp.valueOf(LocalDateTime.now());
+    }
+
+    public static Food fromRequest(FoodRequest request) {
+        return new Food(request.name());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.restaurant.warehouse.controller;
 
+import com.restaurant.warehouse.controller.dto.FoodRequest;
 import com.restaurant.warehouse.controller.dto.OrderDto;
 import com.restaurant.warehouse.model.Food;
 import com.restaurant.warehouse.service.DatabaseInfoService;
@@ -41,11 +42,11 @@ public class WarehouseController {
     }
 
     @PostMapping("/foods")
-    public void addFood(@RequestBody Food movie) {
-        foodService.addNewFood(movie);
+    public void addFood(@RequestBody FoodRequest food) {
+        foodService.addNewFood(food);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/foods/{id}")
     public void deleteFood(@PathVariable("id") Integer id) {
         foodService.deleteFood(id);
     }
