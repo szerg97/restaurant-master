@@ -5,7 +5,10 @@ import com.restaurant.warehouse.controller.dto.OrderDto;
 import com.restaurant.warehouse.model.Food;
 import com.restaurant.warehouse.service.DatabaseInfoService;
 import com.restaurant.warehouse.service.FoodService;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/warehouse")
+@Validated
 public class WarehouseController {
 
     @Value("${spring.datasource.url}")
@@ -33,8 +37,8 @@ public class WarehouseController {
 
     @GetMapping("/foods")
     public List<Food> listFoods(
-            @RequestParam(name = "offset", required = false) Integer offset,
-            @RequestParam(name = "limit", required = false) Integer limit
+            @RequestParam(name = "offset", required = false) @Min(1) Integer offset,
+            @RequestParam(name = "limit", required = false) @Min(1) @Max(100) Integer limit
     ) {
         return foodService.getFoods(offset, limit);
     }
