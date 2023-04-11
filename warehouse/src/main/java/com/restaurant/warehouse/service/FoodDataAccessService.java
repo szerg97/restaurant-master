@@ -21,13 +21,14 @@ public class FoodDataAccessService implements FoodDao {
     }
 
     @Override
-    public List<Food> selectFoods(int limit) {
+    public List<Food> selectFoods(int offset, int limit) {
         var sql = """
                 SELECT id, name, timestamp
                 FROM foods
+                OFFSET ?
                 LIMIT ?
                 """;
-        return jdbcTemplate.query(sql, foodRowMapper, limit);
+        return jdbcTemplate.query(sql, foodRowMapper, offset, limit);
     }
 
     @Override

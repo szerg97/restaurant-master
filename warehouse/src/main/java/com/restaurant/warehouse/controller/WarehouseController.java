@@ -32,8 +32,11 @@ public class WarehouseController {
     }
 
     @GetMapping("/foods")
-    public List<Food> listFoods(@RequestParam(name = "limit", required = false) Integer limit) {
-        return foodService.getFoods(limit);
+    public List<Food> listFoods(
+            @RequestParam(name = "offset", required = false) Integer offset,
+            @RequestParam(name = "limit", required = false) Integer limit
+    ) {
+        return foodService.getFoods(offset, limit);
     }
 
     @GetMapping("/foods/{id}")

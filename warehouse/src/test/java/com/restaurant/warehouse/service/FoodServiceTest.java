@@ -1,5 +1,6 @@
 package com.restaurant.warehouse.service;
 
+import com.restaurant.warehouse.controller.dto.FoodRequest;
 import com.restaurant.warehouse.data.FoodDao;
 import com.restaurant.warehouse.model.Food;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,10 +40,10 @@ class FoodServiceTest {
         int limit = 10;
 
         //When
-        underTest.getFoods(10);
+        underTest.getFoods(null, 10);
 
         //Then
-        then(foodDao).should().selectFoods(limit);
+        then(foodDao).should().selectFoods(1, limit);
     }
 
     @Test
@@ -51,10 +52,10 @@ class FoodServiceTest {
         Integer limit = null;
 
         //When
-        underTest.getFoods(limit);
+        underTest.getFoods(null, limit);
 
         //Then
-        then(foodDao).should().selectFoods(50);
+        then(foodDao).should().selectFoods(1,50);
     }
 
     @Test
@@ -63,7 +64,7 @@ class FoodServiceTest {
         Food food = new Food(1L, "Food 1");
         given(foodDao.insertFood(food)).willReturn(1);
         //When
-        underTest.addNewFood(food);
+        underTest.addNewFood(new FoodRequest("Food 1"));
 
         //Then
         then(foodDao).should().insertFood(food);
@@ -76,7 +77,7 @@ class FoodServiceTest {
         given(foodDao.insertFood(food)).willReturn(0);
         //When
         //Then
-        assertThatThrownBy(() -> underTest.addNewFood(food))
+        assertThatThrownBy(() -> underTest.addNewFood(new FoodRequest("Food 1")))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("oops something went wrong");
     }

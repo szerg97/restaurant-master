@@ -19,11 +19,14 @@ public class FoodService {
         this.foodDao = foodDao;
     }
 
-    public List<Food> getFoods(Integer limit) {
+    public List<Food> getFoods(Integer offset, Integer limit) {
+        if (offset == null){
+            offset = 1;
+        }
         if (limit == null){
             limit = 50;
         }
-        return foodDao.selectFoods(limit);
+        return foodDao.selectFoods(offset, limit);
     }
 
     public void addNewFood(FoodRequest request) {

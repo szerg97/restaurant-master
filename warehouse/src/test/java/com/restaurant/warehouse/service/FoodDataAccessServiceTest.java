@@ -29,7 +29,7 @@ class FoodDataAccessServiceTest extends AbstractTestcontainers {
     void itShouldSelectFoods() {
         //Given
         //When
-        List<Food> actual = underTest.selectFoods(10);
+        List<Food> actual = underTest.selectFoods(1, 10);
 
         //Then
         assertThat(actual).isNotEmpty();
@@ -40,8 +40,7 @@ class FoodDataAccessServiceTest extends AbstractTestcontainers {
         //Given
         Food food = new Food(
                 10001L,
-                "Food 10001",
-                LocalDateTime.now()
+                "Food 10001"
         );
 
         //When
