@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 @Service
 public class FoodRowMapper implements RowMapper<Food> {
@@ -14,7 +15,7 @@ public class FoodRowMapper implements RowMapper<Food> {
         return new Food(
                 resultSet.getLong("id"),
                 resultSet.getString("name"),
-                resultSet.getTimestamp("timestamp").toLocalDateTime()
+                resultSet.getTimestamp("timestamp")
         );
     }
 }

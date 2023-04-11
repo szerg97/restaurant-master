@@ -3,6 +3,7 @@ package com.restaurant.warehouse.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,12 +13,18 @@ public class Food {
 
     private Long id;
     private String name;
-    private LocalDateTime timestamp;
+    private Timestamp timestamp;
 
-    public Food(Long id, String name, LocalDateTime timestamp) {
+    public Food(Long id, String name, Timestamp timestamp) {
         this.id = id;
         this.name = name;
         this.timestamp = timestamp;
+    }
+
+    public Food(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
 
     @Override
