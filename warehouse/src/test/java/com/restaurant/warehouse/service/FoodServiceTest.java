@@ -1,6 +1,7 @@
 package com.restaurant.warehouse.service;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
+import com.restaurant.warehouse.controller.dto.FoodResponse;
 import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.model.Food;
 import org.junit.jupiter.api.BeforeEach;
@@ -128,10 +129,10 @@ class FoodServiceTest {
         given(foodDao.selectFoodById(id)).willReturn(Optional.of(expected));
 
         //When
-        Food actual = underTest.getFood(id);
+        FoodResponse actual = underTest.getFood(id);
 
         //Then
-        assertThat(actual).isEqualTo(expected);
+        assertThat(Food.fromResponse(actual)).isEqualTo(expected);
     }
 
     @Test

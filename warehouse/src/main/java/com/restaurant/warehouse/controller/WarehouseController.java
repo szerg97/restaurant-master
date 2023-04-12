@@ -1,7 +1,7 @@
 package com.restaurant.warehouse.controller;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
-import com.restaurant.warehouse.model.Food;
+import com.restaurant.warehouse.controller.dto.FoodResponse;
 import com.restaurant.warehouse.service.DatabaseInfoService;
 import com.restaurant.warehouse.service.FoodService;
 import jakarta.validation.constraints.Max;
@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Validated
 @RestController
 @RequestMapping("/api/v1/warehouse")
-@Validated
 public class WarehouseController {
 
     @Value("${spring.datasource.url}")
@@ -41,7 +42,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/foods")
-    public List<Food> listFoods(
+    public List<FoodResponse> listFoods(
             @RequestParam(name = "offset", required = false) @Min(1) Integer offset,
             @RequestParam(name = "limit", required = false) @Min(1) @Max(100) Integer limit
     ) {
@@ -49,7 +50,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/foods/{id}")
-    public Food getFoodId(@PathVariable("id") Integer id) {
+    public FoodResponse getFoodId(@PathVariable("id") Integer id) {
         return foodService.getFood(id);
     }
 

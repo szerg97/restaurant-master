@@ -1,6 +1,7 @@
 package com.restaurant.warehouse.service;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
+import com.restaurant.warehouse.controller.dto.FoodResponse;
 import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.exception.ResourceAlreadyExistsException;
 import com.restaurant.warehouse.exception.ResourceNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FoodService {
@@ -19,14 +21,20 @@ public class FoodService {
         this.foodDao = foodDao;
     }
 
-    public List<Food> getFoods(Integer offset, Integer limit) {
+    public List<FoodResponse> getFoods(Integer offset, Integer limit) {
         if (offset == null){
             offset = 0;
         }
         if (limit == null){
             limit = 50;
         }
-        return foodDao.selectFoods(offset, limit);
+        return foodDao.selectFoods(offset, limit).stream()
+                .map(f -> new FoodResponse(
+                        f.getId(),
+                        f.getName(),
+                        f.getQuantity(),
+                        f.getTimestamp()))
+                .collect(Collectors.toList());
     }
 
     public void addNewFood(FoodRequest request) {
@@ -53,8 +61,14 @@ public class FoodService {
         });
     }
 
-    public Food getFood(long id) {
+    public FoodResponse getFood(long id) {
         return foodDao.selectFoodById(id)
+                .map(f -> new FoodResponse(
+                        f.getId(),
+                        f.getName(),
+                        f.getQuantity(),
+                        f.getTimestamp()
+                ))
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Food with id %s not found", id)));
     }
 }

@@ -1,6 +1,7 @@
 package com.restaurant.warehouse.model;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
+import com.restaurant.warehouse.controller.dto.FoodResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +40,10 @@ public class Food {
 
     public static Food fromRequest(FoodRequest request) {
         return new Food(request.name(), request.quantity());
+    }
+
+    public static Food fromResponse(FoodResponse response) {
+        return new Food(response.id(), response.name(), response.quantity(), response.timestamp());
     }
 
     @Override
