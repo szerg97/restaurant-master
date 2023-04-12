@@ -15,6 +15,7 @@ public class FoodRowMapper implements RowMapper<Food> {
         return new Food(
                 resultSet.getLong("id"),
                 resultSet.getString("name"),
+                resultSet.getInt("quantity"),
                 resultSet.getTimestamp("timestamp")
         );
     }

@@ -1,4 +1,4 @@
 package com.restaurant.warehouse.controller.dto;
 
-public record FoodRequest(String name) {
+public record FoodRequest(String name, int quantity) {
 }

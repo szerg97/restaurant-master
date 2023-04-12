@@ -1,6 +1,6 @@
 package com.restaurant.warehouse.service;
 
-import com.restaurant.warehouse.data.FoodDao;
+import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.model.Food;
 import com.restaurant.warehouse.util.FoodRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,7 +23,7 @@ public class FoodDataAccessService implements FoodDao {
     @Override
     public List<Food> selectFoods(int offset, int limit) {
         var sql = """
-                SELECT id, name, timestamp
+                SELECT id, name, quantity, timestamp
                 FROM foods
                 OFFSET ?
                 LIMIT ?
@@ -34,12 +34,12 @@ public class FoodDataAccessService implements FoodDao {
     @Override
     public int insertFood(Food food) {
         var sql = """
-                INSERT INTO foods(name, timestamp)
-                VALUES (?, ?);
+                INSERT INTO foods(name, quantity, timestamp)
+                VALUES (?, ?, ?);
                  """;
         return jdbcTemplate.update(
                 sql,
-                food.getName(), food.getTimestamp()
+                food.getName(), food.getQuantity(), food.getTimestamp()
         );
     }
 
@@ -55,7 +55,7 @@ public class FoodDataAccessService implements FoodDao {
     @Override
     public Optional<Food> selectFoodById(long id) {
         var sql = """
-                SELECT id, name, timestamp
+                SELECT id, name, quantity, timestamp
                 FROM foods
                 WHERE id = ?
                  """;
@@ -67,7 +67,7 @@ public class FoodDataAccessService implements FoodDao {
     @Override
     public Optional<Food> selectFoodByName(String name) {
         var sql = """
-                SELECT id, name, timestamp
+                SELECT id, name, quantity, timestamp
                 FROM foods
                 WHERE name = ?
                  """;

@@ -1,4 +1,4 @@
-package com.restaurant.warehouse.data;
+package com.restaurant.warehouse.dao;
 
 import com.restaurant.warehouse.model.Food;
 import java.util.List;

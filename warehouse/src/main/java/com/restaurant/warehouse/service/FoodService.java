@@ -1,13 +1,12 @@
 package com.restaurant.warehouse.service;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
-import com.restaurant.warehouse.data.FoodDao;
+import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.exception.ResourceAlreadyExistsException;
 import com.restaurant.warehouse.exception.ResourceNotFoundException;
 import com.restaurant.warehouse.model.Food;
 import org.springframework.stereotype.Service;
 
-import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ public class FoodService {
 
     public List<Food> getFoods(Integer offset, Integer limit) {
         if (offset == null){
-            offset = 1;
+            offset = 0;
         }
         if (limit == null){
             limit = 50;
@@ -31,7 +30,6 @@ public class FoodService {
     }
 
     public void addNewFood(FoodRequest request) {
-        // TODO: check if food exists
         Optional<Food> optional = foodDao.selectFoodByName(request.name());
         optional.ifPresentOrElse(f -> {
             throw new ResourceAlreadyExistsException(String.format("Food with name %s already exists", request.name()));
@@ -58,10 +56,5 @@ public class FoodService {
     public Food getFood(long id) {
         return foodDao.selectFoodById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Food with id %s not found", id)));
-    }
-
-    public Food getFood(String name) {
-        return foodDao.selectFoodByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Food with name %s not found", name)));
     }
 }

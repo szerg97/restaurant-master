@@ -40,7 +40,8 @@ class FoodDataAccessServiceTest extends AbstractTestcontainers {
         //Given
         Food food = new Food(
                 10001L,
-                "Food 10001"
+                "Food 10001",
+                10
         );
 
         //When

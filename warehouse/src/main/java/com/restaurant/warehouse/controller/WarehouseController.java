@@ -1,7 +1,6 @@
 package com.restaurant.warehouse.controller;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
-import com.restaurant.warehouse.controller.dto.OrderDto;
 import com.restaurant.warehouse.model.Food;
 import com.restaurant.warehouse.service.DatabaseInfoService;
 import com.restaurant.warehouse.service.FoodService;
@@ -9,9 +8,15 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -56,13 +61,6 @@ public class WarehouseController {
     @DeleteMapping("/foods/{id}")
     public void deleteFood(@PathVariable("id") Integer id) {
         foodService.deleteFood(id);
-    }
-
-    @PostMapping("/serve")
-    public List<Food> serve(@RequestBody OrderDto dto){
-        List<Food> foods = new ArrayList<>();
-        dto.getFoods().forEach(f -> foods.add(foodService.getFood(f.getId())));
-        return foods;
     }
 
     @GetMapping("/datasource")

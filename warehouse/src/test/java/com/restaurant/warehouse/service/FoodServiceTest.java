@@ -1,7 +1,7 @@
 package com.restaurant.warehouse.service;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
-import com.restaurant.warehouse.data.FoodDao;
+import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.model.Food;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,16 +10,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class FoodServiceTest {
@@ -61,10 +58,10 @@ class FoodServiceTest {
     @Test
     void itShouldAddNewFood() {
         //Given
-        Food food = new Food(1L, "Food 1");
+        Food food = new Food(1L, "Food 1", 10);
         given(foodDao.insertFood(food)).willReturn(1);
         //When
-        underTest.addNewFood(new FoodRequest("Food 1"));
+        underTest.addNewFood(new FoodRequest("Food 1", 10));
 
         //Then
         then(foodDao).should().insertFood(food);
@@ -73,11 +70,11 @@ class FoodServiceTest {
     @Test
     void itShouldNotAddNewFoodWhenAlreadyExistsThrow() {
         //Given
-        Food food = new Food(1L, "Food 1");
+        Food food = new Food(1L, "Food 1", 10);
         given(foodDao.insertFood(food)).willReturn(0);
         //When
         //Then
-        assertThatThrownBy(() -> underTest.addNewFood(new FoodRequest("Food 1")))
+        assertThatThrownBy(() -> underTest.addNewFood(new FoodRequest("Food 1", 10)))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("oops something went wrong");
     }
@@ -86,7 +83,7 @@ class FoodServiceTest {
     void itShouldDeleteFood() {
         //Given
         long id = 1L;
-        given(foodDao.selectFoodById(id)).willReturn(Optional.of(new Food(1L, "Food 1")));
+        given(foodDao.selectFoodById(id)).willReturn(Optional.of(new Food(1L, "Food 1", 10)));
         given(foodDao.deleteFood(id)).willReturn(1);
 
         //When
@@ -100,7 +97,7 @@ class FoodServiceTest {
     void itShouldNotDeleteFood() {
         //Given
         long id = 1L;
-        given(foodDao.selectFoodById(id)).willReturn(Optional.of(new Food(1L, "Food 1")));
+        given(foodDao.selectFoodById(id)).willReturn(Optional.of(new Food(1L, "Food 1", 10)));
         given(foodDao.deleteFood(id)).willReturn(0);
 
         //When
@@ -127,7 +124,7 @@ class FoodServiceTest {
     void itShouldGetFood() {
         //Given
         long id = 1;
-        Food expected = new Food(1L, "Food 1");
+        Food expected = new Food(1L, "Food 1", 10);
         given(foodDao.selectFoodById(id)).willReturn(Optional.of(expected));
 
         //When

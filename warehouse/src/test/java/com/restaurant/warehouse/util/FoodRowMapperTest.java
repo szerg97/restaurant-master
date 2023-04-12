@@ -29,7 +29,7 @@ class FoodRowMapperTest {
         Food actual = foodRowMapper.mapRow(resultSet, 1);
 
         //Then
-        Food expected = new Food(1L, "Food 1", now);
+        Food expected = new Food(1L, "Food 1", 10, Timestamp.valueOf(now));
         assertThat(actual).isEqualTo(expected);
     }
 }

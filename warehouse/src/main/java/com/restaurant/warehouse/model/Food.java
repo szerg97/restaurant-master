@@ -14,27 +14,31 @@ public class Food {
 
     private Long id;
     private String name;
+    private int quantity;
     private Timestamp timestamp;
 
-    public Food(Long id, String name, Timestamp timestamp) {
+    public Food(Long id, String name, int quantity, Timestamp timestamp) {
         this.id = id;
         this.name = name;
+        this.quantity = quantity;
         this.timestamp = timestamp;
     }
 
-    public Food(Long id, String name) {
+    public Food(Long id, String name, int quantity) {
         this.id = id;
         this.name = name;
+        this.quantity = quantity;
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public Food(String name) {
+    public Food(String name, int quantity) {
         this.name = name;
+        this.quantity = quantity;
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public static Food fromRequest(FoodRequest request) {
-        return new Food(request.name());
+        return new Food(request.name(), request.quantity());
     }
 
     @Override
@@ -42,6 +46,7 @@ public class Food {
         return "Food{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", quantity='" + quantity + '\'' +
                 ", timestamp=" + timestamp +
                 '}';
     }
@@ -51,11 +56,11 @@ public class Food {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Food food = (Food) o;
-        return Objects.equals(id, food.id) && Objects.equals(name, food.name) && Objects.equals(timestamp, food.timestamp);
+        return Objects.equals(id, food.id) && Objects.equals(name, food.name) && Objects.equals(quantity, food.quantity) && Objects.equals(timestamp, food.timestamp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, timestamp);
+        return Objects.hash(id, name, quantity, timestamp);
     }
 }
