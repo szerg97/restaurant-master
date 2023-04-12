@@ -1,5 +1,7 @@
 package com.restaurant.warehouse.model;
 
+import com.restaurant.warehouse.controller.dto.DrinkRequest;
+import com.restaurant.warehouse.controller.dto.DrinkResponse;
 import com.restaurant.warehouse.controller.dto.FoodRequest;
 import com.restaurant.warehouse.controller.dto.FoodResponse;
 import lombok.AllArgsConstructor;
@@ -13,37 +15,38 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Food {
+public class Drink {
 
     private Long id;
     private String name;
     private int quantity;
     private Timestamp timestamp;
 
-    public Food(Long id, String name, int quantity) {
+    public Drink(Long id, String name, int quantity) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public Food(String name, int quantity) {
+    public Drink(String name, int quantity) {
         this.name = name;
         this.quantity = quantity;
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public static Food fromRequest(FoodRequest request) {
-        return new Food(request.name(), request.quantity());
+
+    public static Drink fromRequest(DrinkRequest request) {
+        return new Drink(request.name(), request.quantity());
     }
 
-    public static Food fromResponse(FoodResponse response) {
-        return new Food(response.id(), response.name(), response.quantity(), response.timestamp());
+    public static Drink fromResponse(DrinkResponse response) {
+        return new Drink(response.id(), response.name(), response.quantity(), response.timestamp());
     }
 
     @Override
     public String toString() {
-        return "Food{" +
+        return "Drink{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", quantity='" + quantity + '\'' +
@@ -55,8 +58,8 @@ public class Food {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Food food = (Food) o;
-        return Objects.equals(id, food.id) && Objects.equals(name, food.name) && Objects.equals(quantity, food.quantity) && Objects.equals(timestamp, food.timestamp);
+        Drink drink = (Drink) o;
+        return Objects.equals(id, drink.id) && Objects.equals(name, drink.name) && Objects.equals(quantity, drink.quantity) && Objects.equals(timestamp, drink.timestamp);
     }
 
     @Override
