@@ -1,0 +1,7 @@
+CREATE TABLE menus(
+   id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+   name VARCHAR (128),
+   order_id BIGINT REFERENCES orders(id),
+   timestamp TIMESTAMP,
+   UNIQUE (name)
+);

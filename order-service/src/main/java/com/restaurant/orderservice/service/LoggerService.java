@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ConditionalOnProperty("logging.enabled")
 public class LoggerService {
 
-    //@Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 2000)
     public void logCurrentTime(){
         String format = MessageFormat.format("The current time is {0}", LocalDateTime.now());
         log.info(format);
