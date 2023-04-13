@@ -1,8 +1,8 @@
 package com.restaurant.orderservice.service;
 
-import com.restaurant.orderservice.dao.MenuDao;
-import com.restaurant.orderservice.model.Menu;
-import com.restaurant.orderservice.util.MenuRowMapper;
+import com.restaurant.orderservice.dao.OrdersMenusDao;
+import com.restaurant.orderservice.model.OrdersMenus;
+import com.restaurant.orderservice.util.OrdersMenusRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -10,18 +10,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MenuAccessService implements MenuDao {
+public class OrdersMenusAccessService implements OrdersMenusDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final MenuRowMapper rowMapper;
+    private final OrdersMenusRowMapper rowMapper;
 
-    public MenuAccessService(JdbcTemplate jdbcTemplate, MenuRowMapper rowMapper) {
+    public OrdersMenusAccessService(JdbcTemplate jdbcTemplate, OrdersMenusRowMapper rowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.rowMapper = rowMapper;
     }
 
     @Override
-    public List<Menu> selectMenus(int offset, int limit) {
+    public List<OrdersMenus> selectAllOrdersMenus(int offset, int limit) {
         String sql = """
                 SELECT id, name, order_id, timestamp
                 FROM menus
@@ -32,22 +32,17 @@ public class MenuAccessService implements MenuDao {
     }
 
     @Override
-    public int insertMenu(Menu food) {
+    public int insertOrdersMenus(OrdersMenus food) {
         return 0;
     }
 
     @Override
-    public int deleteMenu(Long id) {
+    public int deleteOrdersMenus(Long id) {
         return 0;
     }
 
     @Override
-    public Optional<Menu> selectMenuById(long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Menu> selectMenuByName(String name) {
+    public Optional<OrdersMenus> selectOrdersMenus(long orderId, long menuId) {
         return Optional.empty();
     }
 }

@@ -1,10 +1,7 @@
 package com.restaurant.orderservice.service;
 
-import com.restaurant.orderservice.dao.MenuDao;
 import com.restaurant.orderservice.dao.OrderDao;
-import com.restaurant.orderservice.model.Menu;
 import com.restaurant.orderservice.model.Order;
-import com.restaurant.orderservice.util.MenuRowMapper;
 import com.restaurant.orderservice.util.OrderRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

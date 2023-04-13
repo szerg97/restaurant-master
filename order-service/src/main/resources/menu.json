@@ -1,0 +1,28 @@
+{
+  "menus": [
+    {
+      "id": 1,
+      "name": "Menu A",
+      "foods": [1, 2, 3],
+      "drinks": [1],
+      "allergens": [0, 1, 2],
+      "price": 4500
+    },
+    {
+      "id": 2,
+      "name": "Menu B",
+      "foods": [4, 5],
+      "drinks": [2],
+      "allergens": [1, 3],
+      "price": 6900
+    },
+    {
+      "id": 3,
+      "name": "Menu C",
+      "foods": [6, 7],
+      "drinks": [3, 4],
+      "allergens": [6],
+      "price": 5300
+    }
+  ]
+}

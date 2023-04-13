@@ -1,7 +1,7 @@
 package com.restaurant.orderservice.controller;
 
-import com.restaurant.orderservice.controller.dto.MenuResponse;
-import com.restaurant.orderservice.service.MenuService;
+import com.restaurant.orderservice.controller.dto.OrdersMenusResponse;
+import com.restaurant.orderservice.service.OrdersMenusService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +19,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuController {
 
-    private final MenuService menuService;
+    private final OrdersMenusService ordersMenusService;
 
     @GetMapping("")
-    public List<MenuResponse> getMenus(
+    public List<OrdersMenusResponse> getMenus(
             @RequestParam(name = "offset", required = false) @Min(1) Integer offset,
             @RequestParam(name = "limit", required = false) @Min(1) @Max(100) Integer limit
     ){
-        return menuService.getMenus(offset, limit);
+        return ordersMenusService.getAllOrdersMenus(offset, limit);
     }
 }
