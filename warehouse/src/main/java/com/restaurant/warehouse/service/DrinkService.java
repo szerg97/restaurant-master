@@ -1,12 +1,11 @@
 package com.restaurant.warehouse.service;
 
-import com.restaurant.warehouse.controller.dto.DrinkRequest;
-import com.restaurant.warehouse.controller.dto.DrinkResponse;
-import com.restaurant.warehouse.controller.dto.FoodResponse;
+import com.restaurant.warehouse.controller.dto.*;
 import com.restaurant.warehouse.dao.DrinkDao;
 import com.restaurant.warehouse.exception.ResourceAlreadyExistsException;
 import com.restaurant.warehouse.exception.ResourceNotFoundException;
 import com.restaurant.warehouse.model.Drink;
+import com.restaurant.warehouse.model.Food;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -71,5 +70,21 @@ public class DrinkService {
                         f.getTimestamp()
                 ))
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Drink with id %s not found", id)));
+    }
+
+    private Drink getDrinkByName(String name) {
+        return drinkDao.selectDrinkByName(name).stream()
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Drink with name %s not found", name)));
+    }
+
+    public boolean onOrder(DrinksRequest request) {
+        List<String> foodNames = request.drinks();
+        foodNames.forEach(f -> {
+            Drink drink = getDrinkByName(f);
+            drink.decreaseQuantity();
+            drinkDao.updateDrink(drink.getId(), drink);
+        });
+        return true;
     }
 }

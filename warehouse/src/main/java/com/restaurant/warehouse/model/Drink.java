@@ -35,6 +35,9 @@ public class Drink {
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
 
+    public int decreaseQuantity(){
+        return quantity -= 1;
+    }
 
     public static Drink fromRequest(DrinkRequest request) {
         return new Drink(request.name(), request.quantity());

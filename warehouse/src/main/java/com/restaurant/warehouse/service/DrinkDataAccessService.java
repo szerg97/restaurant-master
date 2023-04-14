@@ -2,6 +2,7 @@ package com.restaurant.warehouse.service;
 
 import com.restaurant.warehouse.dao.DrinkDao;
 import com.restaurant.warehouse.model.Drink;
+import com.restaurant.warehouse.model.Food;
 import com.restaurant.warehouse.util.DrinkRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -40,6 +41,19 @@ public class DrinkDataAccessService implements DrinkDao {
         return jdbcTemplate.update(
                 sql,
                 food.getName(), food.getQuantity(), food.getTimestamp()
+        );
+    }
+
+    @Override
+    public int updateDrink(long id, Drink drink) {
+        var sql = """
+                UPDATE drinks
+                SET name = ?, quantity = ?
+                WHERE id = ?;
+                 """;
+        return jdbcTemplate.update(
+                sql,
+                drink.getName(), drink.getQuantity(), id
         );
     }
 

@@ -2,6 +2,7 @@ package com.restaurant.warehouse.service;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
 import com.restaurant.warehouse.controller.dto.FoodResponse;
+import com.restaurant.warehouse.controller.dto.FoodsRequest;
 import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.exception.ResourceAlreadyExistsException;
 import com.restaurant.warehouse.exception.ResourceNotFoundException;
@@ -48,6 +49,17 @@ public class FoodService {
             }
         });
     }
+    public void updateFood(Long id, FoodRequest request) {
+        Optional<Food> optional = foodDao.selectFoodByName(request.name());
+        optional.ifPresentOrElse(f -> {
+            int result = foodDao.updateFood(id, Food.fromRequest(request));
+            if (result != 1) {
+                throw new IllegalStateException("oops something went wrong");
+            }
+        }, () ->{
+            throw new ResourceAlreadyExistsException(String.format("Food with id %s does not exists", id));
+        });
+    }
 
     public void deleteFood(long id) {
         Optional<Food> optional = foodDao.selectFoodById(id);
@@ -70,5 +82,21 @@ public class FoodService {
                         f.getTimestamp()
                 ))
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Food with id %s not found", id)));
+    }
+
+    private Food getFoodByName(String name) {
+        return foodDao.selectFoodByName(name).stream()
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Food with name %s not found", name)));
+    }
+
+    public boolean onOrder(FoodsRequest request) {
+        List<String> foodNames = request.foods();
+        foodNames.forEach(f -> {
+            Food food = getFoodByName(f);
+            food.decreaseQuantity();
+            foodDao.updateFood(food.getId(), food);
+        });
+        return true;
     }
 }

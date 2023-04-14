@@ -44,6 +44,19 @@ public class FoodDataAccessService implements FoodDao {
     }
 
     @Override
+    public int updateFood(long id, Food food) {
+        var sql = """
+                UPDATE foods
+                SET name = ?, quantity = ?
+                WHERE id = ?;
+                 """;
+        return jdbcTemplate.update(
+                sql,
+                food.getName(), food.getQuantity(), id
+        );
+    }
+
+    @Override
     public int deleteFood(Long id) {
         var sql = """
                 DELETE FROM foods   
