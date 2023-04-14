@@ -2,7 +2,6 @@ package com.restaurant.warehouse.service;
 
 import com.restaurant.warehouse.dao.DrinkDao;
 import com.restaurant.warehouse.model.Drink;
-import com.restaurant.warehouse.model.Food;
 import com.restaurant.warehouse.util.DrinkRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
