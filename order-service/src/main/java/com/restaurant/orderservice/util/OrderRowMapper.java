@@ -13,6 +13,7 @@ public class OrderRowMapper implements RowMapper<Order> {
     public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Order(
                 rs.getString("id"),
+                rs.getDouble("price"),
                 rs.getTimestamp("timestamp")
         );
     }

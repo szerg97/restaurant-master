@@ -49,7 +49,7 @@ public class OrderController {
         RestTemplate restTemplate = new RestTemplate();
         boolean isSuccessful = restTemplate.postForEntity(RESOURCE_URL + "/order", request, Boolean.class).getBody();
         if (isSuccessful){
-            String orderId = orderService.addNewOrder();
+            String orderId = orderService.addNewOrder(order.menuNames());
             omService.addNewOrdersMenus(orderId, order.menuNames());
             return true;
         }

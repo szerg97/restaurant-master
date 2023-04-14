@@ -2,6 +2,7 @@ package com.restaurant.orderservice.service;
 
 import com.restaurant.orderservice.controller.dto.OrderResponse;
 import com.restaurant.orderservice.dao.OrderDao;
+import com.restaurant.orderservice.model.MenuConfig;
 import com.restaurant.orderservice.model.Order;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderDao orderDao;
+    private final MenuConfigService configService;
 
-    public OrderService(OrderDao orderDao) {
+    public OrderService(OrderDao orderDao, MenuConfigService configService) {
         this.orderDao = orderDao;
+        this.configService = configService;
     }
 
     public List<OrderResponse> getOrders(Integer offset, Integer limit) {
@@ -28,13 +31,22 @@ public class OrderService {
         return orderDao.selectOrders(offset, limit).stream()
                 .map(f -> new OrderResponse(
                         f.getId(),
+                        f.getPrice(),
                         f.getTimestamp()))
                 .collect(Collectors.toList());
     }
 
-    public String addNewOrder(){
+    public String addNewOrder(List<String> menuNames){
         String id = UUID.randomUUID().toString();
-        orderDao.insertOrder(new Order(id));
+        double price = 0;
+        for (String n: menuNames) {
+            price += configService.getMenus().stream()
+                    .filter(m -> m.getName().equals(n))
+                    .mapToDouble(MenuConfig.Menu::getPrice)
+                    .sum();
+        }
+
+        orderDao.insertOrder(new Order(id, price));
         return id;
     }
 }

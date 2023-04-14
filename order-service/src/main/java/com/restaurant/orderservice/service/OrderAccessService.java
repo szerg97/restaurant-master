@@ -23,7 +23,7 @@ public class OrderAccessService implements OrderDao {
     @Override
     public List<Order> selectOrders(int offset, int limit) {
         String sql = """
-                SELECT id, timestamp
+                SELECT id, price, timestamp
                 FROM orders
                 OFFSET ?
                 LIMIT ?
@@ -34,12 +34,13 @@ public class OrderAccessService implements OrderDao {
     @Override
     public int insertOrder(Order order) {
         String sql = """
-                INSERT INTO orders (id, timestamp)
-                VALUES (?, ?);
+                INSERT INTO orders (id, price, timestamp)
+                VALUES (?, ?, ?);
                 """;
         return jdbcTemplate.update(
                 sql,
                 order.getId(),
+                order.getPrice(),
                 order.getTimestamp());
     }
 

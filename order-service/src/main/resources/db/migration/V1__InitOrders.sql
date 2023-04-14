@@ -1,4 +1,5 @@
 CREATE TABLE orders(
    id VARCHAR PRIMARY KEY,
+   price DOUBLE PRECISION,
    timestamp TIMESTAMP
 );
