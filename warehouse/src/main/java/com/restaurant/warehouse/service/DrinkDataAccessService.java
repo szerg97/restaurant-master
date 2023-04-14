@@ -26,6 +26,7 @@ public class DrinkDataAccessService implements DrinkDao {
         var sql = """
                 SELECT id, name, quantity, timestamp
                 FROM drinks
+                ORDER BY id
                 OFFSET ?
                 LIMIT ?
                 """;

@@ -25,6 +25,7 @@ public class FoodDataAccessService implements FoodDao {
         var sql = """
                 SELECT id, name, quantity, timestamp
                 FROM foods
+                ORDER BY id
                 OFFSET ?
                 LIMIT ?
                 """;
