@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrdersMenus {
-    private long orderId;
+    private String orderId;
     private long menuId;
     private Timestamp timestamp;
 
-    public OrdersMenus(long orderId, long menuId) {
+    public OrdersMenus(String orderId, long menuId) {
         this.orderId = orderId;
         this.menuId = menuId;
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());

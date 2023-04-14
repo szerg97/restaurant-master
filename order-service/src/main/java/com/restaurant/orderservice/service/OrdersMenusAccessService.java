@@ -32,8 +32,15 @@ public class OrdersMenusAccessService implements OrdersMenusDao {
     }
 
     @Override
-    public int insertOrdersMenus(OrdersMenus food) {
-        return 0;
+    public int insertOrdersMenus(OrdersMenus ordersMenus) {
+        String sql = """
+                INSERT INTO orders_menus (order_id, menu_id, timestamp)
+                VALUES (?, ?, ?);
+                """;
+        return jdbcTemplate.update(
+                sql,
+                ordersMenus.getOrderId(), ordersMenus.getMenuId(), ordersMenus.getTimestamp()
+        );
     }
 
     @Override

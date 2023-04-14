@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface OrderDao {
     List<Order> selectOrders(int offset, int limit);
     int insertOrder(Order order);
-    int deleteOrder(Long id);
-    Optional<Order> selectOrderById(long id);
+    int deleteOrder(String id);
+    Optional<Order> selectOrderById(String id);
 }

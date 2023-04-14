@@ -33,16 +33,23 @@ public class OrderAccessService implements OrderDao {
 
     @Override
     public int insertOrder(Order order) {
+        String sql = """
+                INSERT INTO orders (id, timestamp)
+                VALUES (?, ?);
+                """;
+        return jdbcTemplate.update(
+                sql,
+                order.getId(),
+                order.getTimestamp());
+    }
+
+    @Override
+    public int deleteOrder(String id) {
         return 0;
     }
 
     @Override
-    public int deleteOrder(Long id) {
-        return 0;
-    }
-
-    @Override
-    public Optional<Order> selectOrderById(long id) {
+    public Optional<Order> selectOrderById(String id) {
         return Optional.empty();
     }
 

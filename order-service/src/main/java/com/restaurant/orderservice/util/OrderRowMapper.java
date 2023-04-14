@@ -12,7 +12,7 @@ public class OrderRowMapper implements RowMapper<Order> {
     @Override
     public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Order(
-                rs.getLong("id"),
+                rs.getString("id"),
                 rs.getTimestamp("timestamp")
         );
     }

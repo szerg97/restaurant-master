@@ -2,6 +2,7 @@ package com.restaurant.orderservice.service;
 
 import com.restaurant.orderservice.controller.dto.OrdersMenusResponse;
 import com.restaurant.orderservice.dao.OrdersMenusDao;
+import com.restaurant.orderservice.model.OrdersMenus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,5 +32,11 @@ public class OrdersMenusService {
                         menuConfigService.getMenuById(f.getMenuId()).getName(),
                         f.getTimestamp()))
                 .collect(Collectors.toList());
+    }
+
+    public void addNewOrdersMenus(String orderId, List<String> menuNames) {
+        menuNames.forEach(m ->  {
+            ordersMenusDao.insertOrdersMenus(new OrdersMenus(orderId, menuConfigService.getMenuByName(m).getId()));
+        });
     }
 }

@@ -12,7 +12,7 @@ public class OrdersMenusRowMapper implements RowMapper<OrdersMenus> {
     @Override
     public OrdersMenus mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new OrdersMenus(
-                rs.getLong("order_id"),
+                rs.getString("order_id"),
                 rs.getLong("menu_id"),
                 rs.getTimestamp("timestamp")
         );
