@@ -2,7 +2,7 @@ package com.restaurant.warehouse.service;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
 import com.restaurant.warehouse.controller.dto.FoodResponse;
-import com.restaurant.warehouse.controller.dto.FoodsRequest;
+import com.restaurant.warehouse.controller.dto.OrderedFoodsRequest;
 import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.exception.ResourceAlreadyExistsException;
 import com.restaurant.warehouse.exception.ResourceNotFoundException;
@@ -90,7 +90,7 @@ public class FoodService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Food with name %s not found", name)));
     }
 
-    public boolean onOrder(FoodsRequest request) {
+    public boolean updateFoodsOnOrder(OrderedFoodsRequest request) {
         List<String> foodNames = request.foods();
         foodNames.forEach(f -> {
             Food food = getFoodByName(f);

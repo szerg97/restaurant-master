@@ -1,8 +1,6 @@
 package com.restaurant.warehouse.controller;
 
-import com.restaurant.warehouse.controller.dto.DrinkRequest;
-import com.restaurant.warehouse.controller.dto.DrinkResponse;
-import com.restaurant.warehouse.controller.dto.DrinksRequest;
+import com.restaurant.warehouse.controller.dto.*;
 import com.restaurant.warehouse.service.DrinkService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -39,10 +37,17 @@ public class DrinkController {
         drinkService.addNewDrink(drink);
     }
 
+    @PutMapping("/{id}")
+    public void updateDrink(
+            @PathVariable long id,
+            @RequestBody DrinkRequest food) {
+        drinkService.updateDrink(id, food);
+    }
+
     @PutMapping("")
-    public boolean onOrder(
-            @RequestBody DrinksRequest request){
-        return drinkService.onOrder(request);
+    public boolean updateDrinksOnOrder(
+            @RequestBody OrderedDrinksRequest request){
+        return drinkService.updateDrinksOnOrder(request);
     }
 
     @DeleteMapping("/{id}")

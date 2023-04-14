@@ -49,6 +49,18 @@ public class DrinkService {
         });
     }
 
+    public void updateDrink(Long id, DrinkRequest request) {
+        Optional<Drink> optional = drinkDao.selectDrinkByName(request.name());
+        optional.ifPresentOrElse(f -> {
+            int result = drinkDao.updateDrink(id, Drink.fromRequest(request));
+            if (result != 1) {
+                throw new IllegalStateException("oops something went wrong");
+            }
+        }, () ->{
+            throw new ResourceAlreadyExistsException(String.format("Drink with id %s does not exists", id));
+        });
+    }
+
     public void deleteDrink(long id) {
         Optional<Drink> optional = drinkDao.selectDrinkById(id);
         optional.ifPresentOrElse(food -> {
@@ -78,7 +90,7 @@ public class DrinkService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Drink with name %s not found", name)));
     }
 
-    public boolean onOrder(DrinksRequest request) {
+    public boolean updateDrinksOnOrder(OrderedDrinksRequest request) {
         List<String> foodNames = request.drinks();
         foodNames.forEach(f -> {
             Drink drink = getDrinkByName(f);

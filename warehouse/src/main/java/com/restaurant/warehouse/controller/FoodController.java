@@ -2,7 +2,7 @@ package com.restaurant.warehouse.controller;
 
 import com.restaurant.warehouse.controller.dto.FoodRequest;
 import com.restaurant.warehouse.controller.dto.FoodResponse;
-import com.restaurant.warehouse.controller.dto.FoodsRequest;
+import com.restaurant.warehouse.controller.dto.OrderedFoodsRequest;
 import com.restaurant.warehouse.service.FoodService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -38,6 +38,7 @@ public class FoodController {
     public void addFood(@RequestBody FoodRequest food) {
         foodService.addNewFood(food);
     }
+
     @PutMapping("/{id}")
     public void updateFood(
             @PathVariable long id,
@@ -46,9 +47,9 @@ public class FoodController {
     }
 
     @PutMapping("")
-    public boolean onOrder(
-            @RequestBody FoodsRequest request){
-        return foodService.onOrder(request);
+    public boolean updateFoodsOnOrder(
+            @RequestBody OrderedFoodsRequest request){
+        return foodService.updateFoodsOnOrder(request);
     }
 
     @DeleteMapping("/{id}")
