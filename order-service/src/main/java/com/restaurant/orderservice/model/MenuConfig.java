@@ -16,8 +16,8 @@ public class MenuConfig {
     public static class Menu{
         private long id;
         private String name;
-        private List<Long> foods;
-        private List<Long> drinks;
+        private List<String> foods;
+        private List<String> drinks;
         private List<Allergen> allergens;
         private double price;
     }

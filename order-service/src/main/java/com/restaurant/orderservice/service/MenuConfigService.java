@@ -3,12 +3,14 @@ package com.restaurant.orderservice.service;
 import com.restaurant.orderservice.model.MenuConfig;
 import com.restaurant.orderservice.util.Resources;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
 
 @Service
+@Slf4j
 public class MenuConfigService {
 
     private MenuConfig menuConfig;
@@ -16,7 +18,7 @@ public class MenuConfigService {
     @PostConstruct
     public void init() throws IOException {
         menuConfig = Resources.getMenuListResource("menu.json");
-        System.out.println(menuConfig);
+        log.info(String.format("Loaded menu config: %s",menuConfig));
     }
 
     public List<MenuConfig.Menu> getMenus(){

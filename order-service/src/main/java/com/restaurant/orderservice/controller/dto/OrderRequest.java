@@ -1,5 +1,7 @@
 package com.restaurant.orderservice.controller.dto;
 
-public record OrderRequest(
+import java.util.List;
 
+public record OrderRequest(
+    List<String> menuNames
 ){}
