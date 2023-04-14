@@ -61,6 +61,16 @@ public class FoodService {
         });
     }
 
+    public boolean updateFoodsOnOrder(OrderedFoodsRequest request) {
+        List<String> foodNames = request.foods();
+        foodNames.forEach(f -> {
+            Food food = getFoodByName(f);
+            food.decreaseQuantity();
+            foodDao.updateFood(food.getId(), food);
+        });
+        return true;
+    }
+
     public void deleteFood(long id) {
         Optional<Food> optional = foodDao.selectFoodById(id);
         optional.ifPresentOrElse(food -> {
@@ -88,15 +98,5 @@ public class FoodService {
         return foodDao.selectFoodByName(name).stream()
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Food with name %s not found", name)));
-    }
-
-    public boolean updateFoodsOnOrder(OrderedFoodsRequest request) {
-        List<String> foodNames = request.foods();
-        foodNames.forEach(f -> {
-            Food food = getFoodByName(f);
-            food.decreaseQuantity();
-            foodDao.updateFood(food.getId(), food);
-        });
-        return true;
     }
 }

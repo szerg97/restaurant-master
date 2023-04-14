@@ -61,6 +61,16 @@ public class DrinkService {
         });
     }
 
+    public boolean updateDrinksOnOrder(OrderedDrinksRequest request) {
+        List<String> foodNames = request.drinks();
+        foodNames.forEach(f -> {
+            Drink drink = getDrinkByName(f);
+            drink.decreaseQuantity();
+            drinkDao.updateDrink(drink.getId(), drink);
+        });
+        return true;
+    }
+
     public void deleteDrink(long id) {
         Optional<Drink> optional = drinkDao.selectDrinkById(id);
         optional.ifPresentOrElse(food -> {
@@ -88,15 +98,5 @@ public class DrinkService {
         return drinkDao.selectDrinkByName(name).stream()
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Drink with name %s not found", name)));
-    }
-
-    public boolean updateDrinksOnOrder(OrderedDrinksRequest request) {
-        List<String> foodNames = request.drinks();
-        foodNames.forEach(f -> {
-            Drink drink = getDrinkByName(f);
-            drink.decreaseQuantity();
-            drinkDao.updateDrink(drink.getId(), drink);
-        });
-        return true;
     }
 }
