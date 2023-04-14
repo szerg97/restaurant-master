@@ -44,7 +44,7 @@ public class DrinkController {
         drinkService.updateDrink(id, food);
     }
 
-    @PutMapping("")
+    @PutMapping("/order")
     public boolean updateDrinksOnOrder(
             @RequestBody OrderedDrinksRequest request){
         return drinkService.updateDrinksOnOrder(request);
