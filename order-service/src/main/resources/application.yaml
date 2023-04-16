@@ -18,7 +18,8 @@ spring:
       ddl-auto: create-drop
 
 warehouse:
-  url: ${WAREHOUSE_URL:localhost}
+  host: ${WAREHOUSE_URL:localhost}
+  foods-url: http://${warehouse.host}:8081/api/v1/warehouse/foods/order
 
 logging:
   enabled: ${LOGGING_ENABLED:false}

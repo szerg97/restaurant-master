@@ -51,7 +51,16 @@ public class OrderAccessService implements OrderDao {
 
     @Override
     public Optional<Order> selectOrderById(String id) {
-        return Optional.empty();
+        String sql = """
+                SELECT id, price, timestamp
+                FROM orders
+                WHERE id = ?
+                """;
+        return jdbcTemplate.queryForStream(
+                sql,
+                rowMapper,
+                id
+                ).findFirst();
     }
 
 

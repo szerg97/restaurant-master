@@ -2,16 +2,20 @@ package com.restaurant.orderservice.controller;
 
 import com.restaurant.orderservice.controller.dto.OrderRequest;
 import com.restaurant.orderservice.controller.dto.OrderResponse;
-import com.restaurant.orderservice.controller.dto.OrderedFoodsRequest;
 import com.restaurant.orderservice.service.MenuConfigService;
+import com.restaurant.orderservice.service.OrderHandler;
 import com.restaurant.orderservice.service.OrderService;
 import com.restaurant.orderservice.service.OrdersMenusService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,18 +24,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/order-service/orders")
 public class OrderController {
-
-
-    private static final String HOST = "localhost";
-    private static final String RESOURCE_URL = "http://" + HOST + ":8081/api/v1/warehouse/foods";
     private final OrderService orderService;
-    private final OrdersMenusService omService;
-    private final MenuConfigService configService;
 
-    public OrderController(OrderService orderService, OrdersMenusService omService, MenuConfigService configService) {
+    private final OrderHandler orderHandler;
+
+    public OrderController(OrderService orderService, OrdersMenusService omService, MenuConfigService configService, OrderHandler orderHandler) {
         this.orderService = orderService;
-        this.omService = omService;
-        this.configService = configService;
+        this.orderHandler = orderHandler;
     }
 
     @GetMapping("")
@@ -43,16 +42,8 @@ public class OrderController {
     }
 
     @PostMapping("")
-    public Boolean placeOrder(@RequestBody OrderRequest order){
+    public OrderResponse placeNewOrder(@RequestBody OrderRequest order){
         log.info(order.toString());
-        OrderedFoodsRequest request = new OrderedFoodsRequest(configService.getFoodNames(order));
-        RestTemplate restTemplate = new RestTemplate();
-        boolean isSuccessful = restTemplate.postForEntity(RESOURCE_URL + "/order", request, Boolean.class).getBody();
-        if (isSuccessful){
-            String orderId = orderService.addNewOrder(order.menuNames());
-            omService.addNewOrdersMenus(orderId, order.menuNames());
-            return true;
-        }
-        return false;
+        return orderHandler.handle(order);
     }
 }

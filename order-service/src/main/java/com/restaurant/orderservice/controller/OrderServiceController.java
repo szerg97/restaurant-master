@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/api/v1/order-service")
 public class OrderServiceController {
 
-    @Value("${warehouse.url}")
+    @Value("${warehouse.host}")
     private String url;
 
     @GetMapping("/foods")

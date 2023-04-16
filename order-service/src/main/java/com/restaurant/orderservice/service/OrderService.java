@@ -6,6 +6,7 @@ import com.restaurant.orderservice.model.MenuConfig;
 import com.restaurant.orderservice.model.Order;
 import org.springframework.stereotype.Service;
 
+import javax.naming.ServiceUnavailableException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -48,5 +49,10 @@ public class OrderService {
 
         orderDao.insertOrder(new Order(id, price));
         return id;
+    }
+
+    public Order getOrderById(String orderId) {
+        return orderDao.selectOrderById(orderId)
+                .orElseThrow(() -> new IllegalStateException(String.format("Order with id %s not found", orderId)));
     }
 }
