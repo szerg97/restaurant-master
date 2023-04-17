@@ -2,7 +2,7 @@ package com.restaurant.warehouse.controller.dto;
 
 import java.util.Map;
 
-public record OrderedFoodsRequest(
+public record CheckedFoodsResponse(
         Map<String, Integer> foods
 ) {
 }

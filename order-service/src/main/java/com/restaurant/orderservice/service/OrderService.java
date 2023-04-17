@@ -6,8 +6,8 @@ import com.restaurant.orderservice.model.MenuConfig;
 import com.restaurant.orderservice.model.Order;
 import org.springframework.stereotype.Service;
 
-import javax.naming.ServiceUnavailableException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderDao orderDao;
-    private final MenuConfigService configService;
+    private final MenuConfigService menuConfigService;
 
-    public OrderService(OrderDao orderDao, MenuConfigService configService) {
+    public OrderService(OrderDao orderDao, MenuConfigService menuConfigService) {
         this.orderDao = orderDao;
-        this.configService = configService;
+        this.menuConfigService = menuConfigService;
     }
 
     public List<OrderResponse> getOrders(Integer offset, Integer limit) {
@@ -37,14 +37,15 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public String addNewOrder(List<String> menuNames){
+    public String addNewOrder(Map<String, Integer> orderedMenus){
         String id = UUID.randomUUID().toString();
         double price = 0;
-        for (String n: menuNames) {
-            price += configService.getMenus().stream()
-                    .filter(m -> m.getName().equals(n))
-                    .mapToDouble(MenuConfig.Menu::getPrice)
-                    .sum();
+        for (Map.Entry<String, Integer> entry: orderedMenus.entrySet()) {
+            MenuConfig.Menu menu = menuConfigService.getMenus().stream()
+                    .filter(m -> entry.getKey().equals(m.getName()))
+                    .findFirst()
+                    .orElseThrow();
+            price += (menu.getPrice() * entry.getValue());
         }
 
         orderDao.insertOrder(new Order(id, price));

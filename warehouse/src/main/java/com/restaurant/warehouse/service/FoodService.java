@@ -1,16 +1,13 @@
 package com.restaurant.warehouse.service;
 
-import com.restaurant.warehouse.controller.dto.FoodRequest;
-import com.restaurant.warehouse.controller.dto.FoodResponse;
-import com.restaurant.warehouse.controller.dto.OrderedFoodsRequest;
+import com.restaurant.warehouse.controller.dto.*;
 import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.exception.ResourceAlreadyExistsException;
 import com.restaurant.warehouse.exception.ResourceNotFoundException;
 import com.restaurant.warehouse.model.Food;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,13 +59,30 @@ public class FoodService {
     }
 
     public boolean updateFoodsOnOrder(OrderedFoodsRequest request) {
-        List<String> foodNames = request.foods();
+        Set<String> foodNames = request.foods().keySet();
         foodNames.forEach(f -> {
             Food food = getFoodByName(f);
             food.decreaseQuantity();
             foodDao.updateFood(food.getId(), food);
         });
         return true;
+    }
+
+    public CheckedFoodsResponse checkFoodsOnOrder(CheckedFoodsRequest request) {
+        Map<String, Integer> map = new HashMap<>();
+        request.foods().forEach((k, v) -> {
+            Food food = getFoodByName(k);
+            int quantityAvailable;
+            if (food.getQuantity() >= v){
+                quantityAvailable = v;
+            }
+            else{
+                quantityAvailable = food.getQuantity() - v;
+            }
+            map.put(food.getName(), quantityAvailable);
+        });
+        map.forEach((k, v) -> System.out.printf("%s=%s ".formatted(k, v)));
+        return new CheckedFoodsResponse(map);
     }
 
     public void deleteFood(long id) {

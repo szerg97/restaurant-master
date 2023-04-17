@@ -1,8 +1,6 @@
 package com.restaurant.warehouse.controller;
 
-import com.restaurant.warehouse.controller.dto.FoodRequest;
-import com.restaurant.warehouse.controller.dto.FoodResponse;
-import com.restaurant.warehouse.controller.dto.OrderedFoodsRequest;
+import com.restaurant.warehouse.controller.dto.*;
 import com.restaurant.warehouse.service.FoodService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -50,6 +48,12 @@ public class FoodController {
     public boolean updateFoodsOnOrder(
             @RequestBody OrderedFoodsRequest request){
         return foodService.updateFoodsOnOrder(request);
+    }
+
+    @PostMapping("/check")
+    public CheckedFoodsResponse checkFoodsOnOrder(
+            @RequestBody CheckedFoodsRequest request){
+        return foodService.checkFoodsOnOrder(request);
     }
 
     @DeleteMapping("/{id}")

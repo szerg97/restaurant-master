@@ -1,19 +1,21 @@
 package com.restaurant.orderservice.service;
 
-import com.restaurant.orderservice.controller.dto.OrderRequest;
-import com.restaurant.orderservice.controller.dto.OrderResponse;
-import com.restaurant.orderservice.controller.dto.OrderedFoodsRequest;
-import com.restaurant.orderservice.exception.ServiceNotAvailableException;
+import com.restaurant.orderservice.controller.dto.*;
 import com.restaurant.orderservice.model.Order;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class OrderHandler {
 
-    @Value("${warehouse.foods-url}")
-    private String url;
+    @Value("${warehouse.order-foods-url}")
+    private String orderUrl;
+    @Value("${warehouse.check-foods-url}")
+    private String checkUrl;
     private final OrderService orderService;
     private final OrdersMenusService omService;
     private final MenuConfigService configService;
@@ -25,17 +27,21 @@ public class OrderHandler {
     }
 
     public OrderResponse handle(OrderRequest order) {
-        boolean isSuccessful = Boolean.TRUE.equals(new RestTemplate()
-                .postForEntity(url,
-                        new OrderedFoodsRequest(configService.getFoodNames(order)),
-                        Boolean.class)
-                .getBody());
-        if (isSuccessful){
-            String orderId = orderService.addNewOrder(order.menuNames());
-            omService.addNewOrdersMenus(orderId, order.menuNames());
-            Order orderById = orderService.getOrderById(orderId);
-            return new OrderResponse(orderId, orderById.getPrice(), orderById.getTimestamp());
-        }
-        throw new ServiceNotAvailableException("Could not reach service on URL: " + url);
+        Map<String, Integer> checkedFoods = checkFoods(order).foods();
+        String orderId = orderService.addNewOrder(order.menus());
+        omService.addNewOrdersMenus(orderId, order.menus());
+
+        //updateFoods(order);
+
+        Order orderById = orderService.getOrderById(orderId);
+        return new OrderResponse(orderId, orderById.getPrice(), orderById.getTimestamp());
+    }
+
+    private CheckedFoodsResponse checkFoods(OrderRequest order){
+        return new RestTemplate()
+                .postForEntity(checkUrl,
+                        new CheckedFoodsRequest(configService.getFoods(order)),
+                        CheckedFoodsResponse.class)
+                .getBody();
     }
 }

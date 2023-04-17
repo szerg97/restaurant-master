@@ -8,9 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -32,11 +32,13 @@ public class MenuConfigService {
         return menuConfig.getMenus().stream().filter(m -> m.getId() == menuId).findFirst().orElseThrow();
     }
 
-    public List<String> getFoodNames(OrderRequest order) {
-        List<String> foods = new ArrayList<>();
-        order.menuNames().forEach(n -> menuConfig.getMenus().stream()
-                .filter(m -> m.getName().equals(n))
-                .forEach(menu -> foods.addAll(menu.getFoods())));
+    public Map<String, Integer> getFoods(OrderRequest order) {
+        Map<String, Integer> foods = new HashMap<>();
+        order.menus().forEach((k, v) -> menuConfig.getMenus().stream()
+                .filter(menu -> menu.getName().equals(k))
+                .forEach(menu -> menu.getFoods().forEach(f -> {
+                    foods.put(f, v);
+                })));
         return foods;
     }
 

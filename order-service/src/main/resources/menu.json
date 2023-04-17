@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Menu A",
-      "foods": ["Food 1", "Food 2", "Food 2"],
+      "foods": ["Food 1", "Food 2", "Food 3"],
       "drinks": ["Drink 1"],
       "allergens": [0, 1, 2],
       "price": 4500

@@ -19,7 +19,8 @@ spring:
 
 warehouse:
   host: ${WAREHOUSE_URL:localhost}
-  foods-url: http://${warehouse.host}:8081/api/v1/warehouse/foods/order
+  order-foods-url: http://${warehouse.host}:8081/api/v1/warehouse/foods/order
+  check-foods-url: http://${warehouse.host}:8081/api/v1/warehouse/foods/check
 
 logging:
   enabled: ${LOGGING_ENABLED:false}

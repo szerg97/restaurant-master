@@ -6,6 +6,7 @@ import com.restaurant.orderservice.model.OrdersMenus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,8 +35,8 @@ public class OrdersMenusService {
                 .collect(Collectors.toList());
     }
 
-    public void addNewOrdersMenus(String orderId, List<String> menuNames) {
-        menuNames.forEach(m ->  {
+    public void addNewOrdersMenus(String orderId, Map<String, Integer> menuNames) {
+        menuNames.forEach((m, n) ->  {
             ordersMenusDao.insertOrdersMenus(new OrdersMenus(orderId, menuConfigService.getMenuByName(m).getId()));
         });
     }
