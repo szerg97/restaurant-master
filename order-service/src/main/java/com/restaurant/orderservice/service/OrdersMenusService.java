@@ -35,9 +35,9 @@ public class OrdersMenusService {
                 .collect(Collectors.toList());
     }
 
-    public void addNewOrdersMenus(String orderId, Map<String, Integer> menuNames) {
-        menuNames.forEach((m, n) ->  {
-            ordersMenusDao.insertOrdersMenus(new OrdersMenus(orderId, menuConfigService.getMenuByName(m).getId()));
+    public void addNewOrdersMenus(String orderId, Map<String, Integer> menus) {
+        menus.forEach((m, n) ->  {
+            ordersMenusDao.insertOrdersMenus(new OrdersMenus(orderId, menuConfigService.getMenuByName(m).getId(), n));
         });
     }
 }

@@ -23,7 +23,7 @@ public class OrdersMenusAccessService implements OrdersMenusDao {
     @Override
     public List<OrdersMenus> selectAllOrdersMenus(int offset, int limit) {
         String sql = """
-                SELECT id, name, order_id, timestamp
+                SELECT id, name, order_id, quantity, timestamp
                 FROM menus
                 OFFSET ?
                 LIMIT ?
@@ -34,12 +34,12 @@ public class OrdersMenusAccessService implements OrdersMenusDao {
     @Override
     public int insertOrdersMenus(OrdersMenus ordersMenus) {
         String sql = """
-                INSERT INTO orders_menus (order_id, menu_id, timestamp)
-                VALUES (?, ?, ?);
+                INSERT INTO orders_menus (order_id, menu_id, quantity, timestamp)
+                VALUES (?, ?, ?, ?);
                 """;
         return jdbcTemplate.update(
                 sql,
-                ordersMenus.getOrderId(), ordersMenus.getMenuId(), ordersMenus.getTimestamp()
+                ordersMenus.getOrderId(), ordersMenus.getMenuId(), ordersMenus.getQuantity(), ordersMenus.getTimestamp()
         );
     }
 

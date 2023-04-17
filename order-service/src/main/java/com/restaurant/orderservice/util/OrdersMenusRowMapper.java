@@ -14,6 +14,7 @@ public class OrdersMenusRowMapper implements RowMapper<OrdersMenus> {
         return new OrdersMenus(
                 rs.getString("order_id"),
                 rs.getLong("menu_id"),
+                rs.getInt("quantity"),
                 rs.getTimestamp("timestamp")
         );
     }
