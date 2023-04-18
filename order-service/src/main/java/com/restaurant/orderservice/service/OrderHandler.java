@@ -1,10 +1,13 @@
 package com.restaurant.orderservice.service;
 
-import com.restaurant.orderservice.controller.dto.*;
+import com.restaurant.orderservice.controller.dto.CheckedFoodsRequest;
+import com.restaurant.orderservice.controller.dto.CheckedFoodsResponse;
+import com.restaurant.orderservice.controller.dto.OrderRequest;
+import com.restaurant.orderservice.controller.dto.OrderResponse;
+import com.restaurant.orderservice.controller.dto.OrderedFoodsRequest;
+import com.restaurant.orderservice.controller.dto.OrderedFoodsResponse;
 import com.restaurant.orderservice.model.Order;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,18 +15,16 @@ import java.util.Map;
 @Service
 public class OrderHandler {
 
-    @Value("${warehouse.order-foods-url}")
-    private String orderUrl;
-    @Value("${warehouse.check-foods-url}")
-    private String checkUrl;
     private final OrderService orderService;
     private final OrdersMenusService omService;
     private final MenuConfigService menuConfigService;
+    private final WarehouseServiceExternal externalService;
 
-    public OrderHandler(OrderService orderService, OrdersMenusService omService, MenuConfigService menuConfigService) {
+    public OrderHandler(OrderService orderService, OrdersMenusService omService, MenuConfigService menuConfigService, WarehouseServiceExternal externalService) {
         this.orderService = orderService;
         this.omService = omService;
         this.menuConfigService = menuConfigService;
+        this.externalService = externalService;
     }
 
     public OrderResponse handle(OrderRequest order) {
@@ -48,18 +49,10 @@ public class OrderHandler {
                 foodsToOrder.put(name, quantity);
             }
         });
-        return new RestTemplate()
-                .postForEntity(orderUrl,
-                        new OrderedFoodsRequest(foodsToOrder),
-                        OrderedFoodsResponse.class)
-                .getBody();
+        return externalService.orderFoods(new OrderedFoodsRequest(foodsToOrder));
     }
 
     private CheckedFoodsResponse checkFoods(OrderRequest order){
-        return new RestTemplate()
-                .postForEntity(checkUrl,
-                        new CheckedFoodsRequest(menuConfigService.getFoods(order)),
-                        CheckedFoodsResponse.class)
-                .getBody();
+        return externalService.checkFoods(new CheckedFoodsRequest(menuConfigService.getFoods(order)));
     }
 }
