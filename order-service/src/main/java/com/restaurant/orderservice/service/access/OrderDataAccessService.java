@@ -22,7 +22,7 @@ public class OrderDataAccessService implements OrderDao {
 
     @Override
     public List<Order> selectOrders(int offset, int limit) {
-        String sql = """
+        final String sql = """
                 SELECT id, price, timestamp
                 FROM orders
                 OFFSET ?
@@ -33,7 +33,7 @@ public class OrderDataAccessService implements OrderDao {
 
     @Override
     public int insertOrder(Order order) {
-        String sql = """
+        final String sql = """
                 INSERT INTO orders (id, price, timestamp)
                 VALUES (?, ?, ?);
                 """;
@@ -51,7 +51,7 @@ public class OrderDataAccessService implements OrderDao {
 
     @Override
     public Optional<Order> selectOrderById(String id) {
-        String sql = """
+        final String sql = """
                 SELECT id, price, timestamp
                 FROM orders
                 WHERE id = ?

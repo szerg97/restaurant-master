@@ -22,7 +22,7 @@ public class OrdersMenusDataAccessService implements OrdersMenusDao {
 
     @Override
     public List<OrdersMenus> selectAllOrdersMenus(int offset, int limit) {
-        String sql = """
+        final String sql = """
                 SELECT id, name, order_id, quantity, timestamp
                 FROM menus
                 OFFSET ?
@@ -33,7 +33,7 @@ public class OrdersMenusDataAccessService implements OrdersMenusDao {
 
     @Override
     public int insertOrdersMenus(OrdersMenus ordersMenus) {
-        String sql = """
+        final String sql = """
                 INSERT INTO orders_menus (order_id, menu_id, quantity, timestamp)
                 VALUES (?, ?, ?, ?);
                 """;

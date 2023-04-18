@@ -33,7 +33,7 @@ public class MenuConfigService {
     }
 
     public Map<String, Integer> getFoods(OrderRequest order) {
-        Map<String, Integer> foods = new HashMap<>();
+        final Map<String, Integer> foods = new HashMap<>();
         order.menus().forEach((k, v) -> menuConfig.getMenus().stream()
                 .filter(menu -> menu.getName().equals(k))
                 .forEach(menu -> menu.getFoods().forEach(f -> {

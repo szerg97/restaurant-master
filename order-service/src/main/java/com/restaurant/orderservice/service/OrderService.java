@@ -39,10 +39,10 @@ public class OrderService {
     }
 
     public String addNewOrder(Map<String, Integer> orderedMenus){
-        String id = UUID.randomUUID().toString();
+        final String id = UUID.randomUUID().toString();
         double price = 0;
         for (Map.Entry<String, Integer> entry: orderedMenus.entrySet()) {
-            MenuConfig.Menu menu = menuConfigService.getMenus().stream()
+            final MenuConfig.Menu menu = menuConfigService.getMenus().stream()
                     .filter(m -> entry.getKey().equals(m.getName()))
                     .findFirst()
                     .orElseThrow();
