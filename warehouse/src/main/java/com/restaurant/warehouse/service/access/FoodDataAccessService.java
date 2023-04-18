@@ -1,4 +1,4 @@
-package com.restaurant.warehouse.service;
+package com.restaurant.warehouse.service.access;
 
 import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.model.Food;

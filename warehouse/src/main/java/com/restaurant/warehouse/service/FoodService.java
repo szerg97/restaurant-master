@@ -81,7 +81,6 @@ public class FoodService {
             }
             map.put(food.getName(), quantityAvailable);
         });
-        map.forEach((k, v) -> System.out.printf("%s=%s ".formatted(k, v)));
         return new CheckedFoodsResponse(map);
     }
 

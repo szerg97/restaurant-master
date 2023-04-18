@@ -1,4 +1,4 @@
-package com.restaurant.orderservice.service;
+package com.restaurant.orderservice.service.access;
 
 import com.restaurant.orderservice.dao.OrdersMenusDao;
 import com.restaurant.orderservice.model.OrdersMenus;
@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class OrdersMenusAccessService implements OrdersMenusDao {
+public class OrdersMenusDataAccessService implements OrdersMenusDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final OrdersMenusRowMapper rowMapper;
 
-    public OrdersMenusAccessService(JdbcTemplate jdbcTemplate, OrdersMenusRowMapper rowMapper) {
+    public OrdersMenusDataAccessService(JdbcTemplate jdbcTemplate, OrdersMenusRowMapper rowMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.rowMapper = rowMapper;
     }
