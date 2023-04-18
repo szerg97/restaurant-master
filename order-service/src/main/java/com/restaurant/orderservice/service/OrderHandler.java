@@ -18,12 +18,12 @@ public class OrderHandler {
     private String checkUrl;
     private final OrderService orderService;
     private final OrdersMenusService omService;
-    private final MenuConfigService configService;
+    private final MenuConfigService menuConfigService;
 
-    public OrderHandler(OrderService orderService, OrdersMenusService omService, MenuConfigService configService) {
+    public OrderHandler(OrderService orderService, OrdersMenusService omService, MenuConfigService menuConfigService) {
         this.orderService = orderService;
         this.omService = omService;
-        this.configService = configService;
+        this.menuConfigService = menuConfigService;
     }
 
     public OrderResponse handle(OrderRequest order) {
@@ -58,7 +58,7 @@ public class OrderHandler {
     private CheckedFoodsResponse checkFoods(OrderRequest order){
         return new RestTemplate()
                 .postForEntity(checkUrl,
-                        new CheckedFoodsRequest(configService.getFoods(order)),
+                        new CheckedFoodsRequest(menuConfigService.getFoods(order)),
                         CheckedFoodsResponse.class)
                 .getBody();
     }
