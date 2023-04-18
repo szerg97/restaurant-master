@@ -1,11 +1,12 @@
 package com.restaurant.warehouse.service;
 
-import com.restaurant.warehouse.controller.dto.*;
+import com.restaurant.warehouse.controller.dto.DrinkRequest;
+import com.restaurant.warehouse.controller.dto.DrinkResponse;
+import com.restaurant.warehouse.controller.dto.OrderedDrinksRequest;
 import com.restaurant.warehouse.dao.DrinkDao;
 import com.restaurant.warehouse.exception.ResourceAlreadyExistsException;
 import com.restaurant.warehouse.exception.ResourceNotFoundException;
 import com.restaurant.warehouse.model.Drink;
-import com.restaurant.warehouse.model.Food;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,11 +39,11 @@ public class DrinkService {
     }
 
     public void addNewDrink(DrinkRequest request) {
-        Optional<Drink> optional = drinkDao.selectDrinkByName(request.name());
+        final Optional<Drink> optional = drinkDao.selectDrinkByName(request.name());
         optional.ifPresentOrElse(f -> {
             throw new ResourceAlreadyExistsException(String.format("Drink with name %s already exists", request.name()));
         }, () ->{
-            int result = drinkDao.insertDrink(Drink.fromRequest(request));
+            final int result = drinkDao.insertDrink(Drink.fromRequest(request));
             if (result != 1) {
                 throw new IllegalStateException("oops something went wrong");
             }
@@ -50,9 +51,9 @@ public class DrinkService {
     }
 
     public void updateDrink(Long id, DrinkRequest request) {
-        Optional<Drink> optional = drinkDao.selectDrinkByName(request.name());
+        final Optional<Drink> optional = drinkDao.selectDrinkByName(request.name());
         optional.ifPresentOrElse(f -> {
-            int result = drinkDao.updateDrink(id, Drink.fromRequest(request));
+            final int result = drinkDao.updateDrink(id, Drink.fromRequest(request));
             if (result != 1) {
                 throw new IllegalStateException("oops something went wrong");
             }
@@ -62,9 +63,9 @@ public class DrinkService {
     }
 
     public boolean updateDrinksOnOrder(OrderedDrinksRequest request) {
-        List<String> foodNames = request.drinks();
+        final List<String> foodNames = request.drinks();
         foodNames.forEach(f -> {
-            Drink drink = getDrinkByName(f);
+            final Drink drink = getDrinkByName(f);
             drink.decreaseQuantity();
             drinkDao.updateDrink(drink.getId(), drink);
         });
@@ -72,9 +73,9 @@ public class DrinkService {
     }
 
     public void deleteDrink(long id) {
-        Optional<Drink> optional = drinkDao.selectDrinkById(id);
+        final Optional<Drink> optional = drinkDao.selectDrinkById(id);
         optional.ifPresentOrElse(food -> {
-            int result = drinkDao.deleteDrink(id);
+            final int result = drinkDao.deleteDrink(id);
             if (result != 1) {
                 throw new IllegalStateException("oops could not delete drink: " + food);
             }

@@ -1,13 +1,21 @@
 package com.restaurant.warehouse.service;
 
-import com.restaurant.warehouse.controller.dto.*;
+import com.restaurant.warehouse.controller.dto.CheckedFoodsRequest;
+import com.restaurant.warehouse.controller.dto.CheckedFoodsResponse;
+import com.restaurant.warehouse.controller.dto.FoodRequest;
+import com.restaurant.warehouse.controller.dto.FoodResponse;
+import com.restaurant.warehouse.controller.dto.OrderedFoodsRequest;
+import com.restaurant.warehouse.controller.dto.OrderedFoodsResponse;
 import com.restaurant.warehouse.dao.FoodDao;
 import com.restaurant.warehouse.exception.ResourceAlreadyExistsException;
 import com.restaurant.warehouse.exception.ResourceNotFoundException;
 import com.restaurant.warehouse.model.Food;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,20 +44,20 @@ public class FoodService {
     }
 
     public void addNewFood(FoodRequest request) {
-        Optional<Food> optional = foodDao.selectFoodByName(request.name());
+        final Optional<Food> optional = foodDao.selectFoodByName(request.name());
         optional.ifPresentOrElse(f -> {
             throw new ResourceAlreadyExistsException(String.format("Food with name %s already exists", request.name()));
         }, () ->{
-            int result = foodDao.insertFood(Food.fromRequest(request));
+            final int result = foodDao.insertFood(Food.fromRequest(request));
             if (result != 1) {
                 throw new IllegalStateException("oops something went wrong");
             }
         });
     }
     public void updateFood(Long id, FoodRequest request) {
-        Optional<Food> optional = foodDao.selectFoodByName(request.name());
+        final Optional<Food> optional = foodDao.selectFoodByName(request.name());
         optional.ifPresentOrElse(f -> {
-            int result = foodDao.updateFood(id, Food.fromRequest(request));
+            final int result = foodDao.updateFood(id, Food.fromRequest(request));
             if (result != 1) {
                 throw new IllegalStateException("oops something went wrong");
             }
@@ -61,7 +69,7 @@ public class FoodService {
     public OrderedFoodsResponse updateFoodsOnOrder(OrderedFoodsRequest request) {
         request.foods()
                 .forEach((name, quantity) -> {
-                    Food food = getFoodByName(name);
+                    final Food food = getFoodByName(name);
                     food.decreaseQuantity(quantity);
                     foodDao.updateFood(food.getId(), food);
                 });
@@ -69,9 +77,9 @@ public class FoodService {
     }
 
     public CheckedFoodsResponse checkFoodsOnOrder(CheckedFoodsRequest request) {
-        Map<String, Integer> map = new HashMap<>();
+        final Map<String, Integer> map = new HashMap<>();
         request.foods().forEach((k, v) -> {
-            Food food = getFoodByName(k);
+            final Food food = getFoodByName(k);
             int quantityAvailable;
             if (food.getQuantity() >= v){
                 quantityAvailable = v;
@@ -85,9 +93,9 @@ public class FoodService {
     }
 
     public void deleteFood(long id) {
-        Optional<Food> optional = foodDao.selectFoodById(id);
+        final Optional<Food> optional = foodDao.selectFoodById(id);
         optional.ifPresentOrElse(food -> {
-            int result = foodDao.deleteFood(id);
+            final int result = foodDao.deleteFood(id);
             if (result != 1) {
                 throw new IllegalStateException("oops could not delete food: " + food);
             }

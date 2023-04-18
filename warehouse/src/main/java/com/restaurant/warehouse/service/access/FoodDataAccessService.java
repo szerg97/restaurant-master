@@ -22,7 +22,7 @@ public class FoodDataAccessService implements FoodDao {
 
     @Override
     public List<Food> selectFoods(int offset, int limit) {
-        var sql = """
+        final String sql = """
                 SELECT id, name, quantity, timestamp
                 FROM foods
                 ORDER BY id
@@ -34,7 +34,7 @@ public class FoodDataAccessService implements FoodDao {
 
     @Override
     public int insertFood(Food food) {
-        var sql = """
+        final String sql = """
                 INSERT INTO foods(name, quantity, timestamp)
                 VALUES (?, ?, ?);
                  """;
@@ -46,7 +46,7 @@ public class FoodDataAccessService implements FoodDao {
 
     @Override
     public int updateFood(long id, Food food) {
-        var sql = """
+        final String sql = """
                 UPDATE foods
                 SET name = ?, quantity = ?
                 WHERE id = ?;
@@ -59,7 +59,7 @@ public class FoodDataAccessService implements FoodDao {
 
     @Override
     public int deleteFood(Long id) {
-        var sql = """
+        final String sql = """
                 DELETE FROM foods   
                 WHERE id = ?
                 """;
@@ -68,7 +68,7 @@ public class FoodDataAccessService implements FoodDao {
 
     @Override
     public Optional<Food> selectFoodById(long id) {
-        var sql = """
+        final String sql = """
                 SELECT id, name, quantity, timestamp
                 FROM foods
                 WHERE id = ?
@@ -80,7 +80,7 @@ public class FoodDataAccessService implements FoodDao {
 
     @Override
     public Optional<Food> selectFoodByName(String name) {
-        var sql = """
+        final String sql = """
                 SELECT id, name, quantity, timestamp
                 FROM foods
                 WHERE name = ?

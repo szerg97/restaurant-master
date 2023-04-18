@@ -22,7 +22,7 @@ public class DrinkDataAccessService implements DrinkDao {
 
     @Override
     public List<Drink> selectDrinks(int offset, int limit) {
-        var sql = """
+        final String sql = """
                 SELECT id, name, quantity, timestamp
                 FROM drinks
                 ORDER BY id
@@ -34,7 +34,7 @@ public class DrinkDataAccessService implements DrinkDao {
 
     @Override
     public int insertDrink(Drink food) {
-        var sql = """
+        final String sql = """
                 INSERT INTO drinks (name, quantity, timestamp)
                 VALUES (?, ?, ?);
                  """;
@@ -46,7 +46,7 @@ public class DrinkDataAccessService implements DrinkDao {
 
     @Override
     public int updateDrink(long id, Drink drink) {
-        var sql = """
+        final String sql = """
                 UPDATE drinks
                 SET name = ?, quantity = ?
                 WHERE id = ?;
@@ -59,7 +59,7 @@ public class DrinkDataAccessService implements DrinkDao {
 
     @Override
     public int deleteDrink(Long id) {
-        var sql = """
+        final String sql = """
                 DELETE FROM drinks   
                 WHERE id = ?
                 """;
@@ -68,7 +68,7 @@ public class DrinkDataAccessService implements DrinkDao {
 
     @Override
     public Optional<Drink> selectDrinkById(long id) {
-        var sql = """
+        final String sql = """
                 SELECT id, name, quantity, timestamp
                 FROM drinks
                 WHERE id = ?
@@ -80,7 +80,7 @@ public class DrinkDataAccessService implements DrinkDao {
 
     @Override
     public Optional<Drink> selectDrinkByName(String name) {
-        var sql = """
+        final String sql = """
                 SELECT id, name, quantity, timestamp
                 FROM drinks
                 WHERE name = ?
