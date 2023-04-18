@@ -1,0 +1,6 @@
+server:
+  port: 8090
+order-service:
+  url: http://localhost:8080
+warehouse:
+  url: http://localhost:8081
