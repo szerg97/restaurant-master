@@ -33,8 +33,8 @@ public class Food {
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public int decreaseQuantity(){
-        return quantity -= 1;
+    public int decreaseQuantity(int value){
+        return quantity -= value;
     }
 
     public static Food fromRequest(FoodRequest request) {

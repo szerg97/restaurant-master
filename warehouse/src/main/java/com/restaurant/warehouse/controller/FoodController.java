@@ -45,7 +45,7 @@ public class FoodController {
     }
 
     @PostMapping("/order")
-    public boolean updateFoodsOnOrder(
+    public OrderedFoodsResponse updateFoodsOnOrder(
             @RequestBody OrderedFoodsRequest request){
         return foodService.updateFoodsOnOrder(request);
     }

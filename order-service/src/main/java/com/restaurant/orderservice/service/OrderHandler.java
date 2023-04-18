@@ -31,10 +31,28 @@ public class OrderHandler {
         String orderId = orderService.addNewOrder(order.menus());
         omService.addNewOrdersMenus(orderId, order.menus());
 
-        //updateFoods(order);
+        Map<String, Integer> orderedFoods = orderFoods(checkedFoods).foods();
 
         Order orderById = orderService.getOrderById(orderId);
-        return new OrderResponse(orderId, orderById.getPrice(), orderById.getTimestamp());
+        return new OrderResponse(
+                orderId,
+                orderById.getPrice(),
+                orderById.getTimestamp(),
+                orderedFoods);
+    }
+
+    private OrderedFoodsResponse orderFoods(Map<String, Integer> checkedFoods) {
+        Map<String, Integer> foodsToOrder = new HashMap<>();
+        checkedFoods.forEach((name, quantity) -> {
+            if (quantity > 0){
+                foodsToOrder.put(name, quantity);
+            }
+        });
+        return new RestTemplate()
+                .postForEntity(orderUrl,
+                        new OrderedFoodsRequest(foodsToOrder),
+                        OrderedFoodsResponse.class)
+                .getBody();
     }
 
     private CheckedFoodsResponse checkFoods(OrderRequest order){

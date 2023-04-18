@@ -58,14 +58,14 @@ public class FoodService {
         });
     }
 
-    public boolean updateFoodsOnOrder(OrderedFoodsRequest request) {
-        Set<String> foodNames = request.foods().keySet();
-        foodNames.forEach(f -> {
-            Food food = getFoodByName(f);
-            food.decreaseQuantity();
-            foodDao.updateFood(food.getId(), food);
-        });
-        return true;
+    public OrderedFoodsResponse updateFoodsOnOrder(OrderedFoodsRequest request) {
+        request.foods()
+                .forEach((name, quantity) -> {
+                    Food food = getFoodByName(name);
+                    food.decreaseQuantity(quantity);
+                    foodDao.updateFood(food.getId(), food);
+                });
+        return new OrderedFoodsResponse(request.foods());
     }
 
     public CheckedFoodsResponse checkFoodsOnOrder(CheckedFoodsRequest request) {

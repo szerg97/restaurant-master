@@ -33,7 +33,8 @@ public class OrderService {
                 .map(f -> new OrderResponse(
                         f.getId(),
                         f.getPrice(),
-                        f.getTimestamp()))
+                        f.getTimestamp(),
+                        null))
                 .collect(Collectors.toList());
     }
 
