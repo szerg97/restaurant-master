@@ -5,11 +5,14 @@ import com.restaurant.apigateway.service.OrderServiceExternal;
 import com.restaurant.apigateway.service.WarehouseServiceExternal;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/v1/restaurant")
 public class ApiGatewayController {
 

@@ -1,1 +1,12 @@
-<p>menu works!</p>
+<h1>Menu</h1>
+<table>
+    <tbody>
+        <tr *ngFor="let menu of myMenus">
+            <h2>{{ menu.name }}</h2>
+            <p>{{ menu.foods }}</p>
+            <p>{{ menu.drinks }}</p>
+            <p>{{ menu.allergens}}</p>
+            <p>{{ menu.price}}</p>
+        </tr>
+    </tbody>
+</table>
