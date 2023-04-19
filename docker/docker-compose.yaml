@@ -2,26 +2,48 @@ version: '3.8'
 
 services:
 
-  order-service:
-    image: szalaigeri/order-service:1.0.0
-    restart: on-failure
-    ports:
-      - "8080:8080"
-    networks:
-      - backend
-    depends_on:
-      - warehouse
+  postgres-warehouse:
+    container_name: postgres-warehouse
+    image: postgres
+    restart: always
     environment:
-      - WAREHOUSE_URL=warehouse
-
-  warehouse:
-    image: szalaigeri/warehouse:1.0.0
-    restart: on-failure
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: warehouse
     ports:
-      - "8081:8081"
-    networks:
-      - backend
+      - "5432:5432"
 
-networks:
-  backend:
-    name: backend
+  postgres-order-service:
+    container_name: postgres-order-service
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: order-service
+    ports:
+      - "5433:5432"
+
+#  order-service:
+#    image: szalaigeri/order-service:1.0.0
+#    restart: on-failure
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - backend
+#    depends_on:
+#      - warehouse
+#    environment:
+#      - WAREHOUSE_URL=warehouse
+#
+#  warehouse:
+#    image: szalaigeri/warehouse:1.0.0
+#    restart: on-failure
+#    ports:
+#      - "8081:8081"
+#    networks:
+#      - backend
+#
+#networks:
+#  backend:
+#    name: backend

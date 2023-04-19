@@ -1,5 +1,6 @@
 package com.restaurant.orderservice.service;
 
+import com.restaurant.orderservice.controller.dto.MenuResponse;
 import com.restaurant.orderservice.controller.dto.OrderRequest;
 import com.restaurant.orderservice.model.MenuConfig;
 import com.restaurant.orderservice.util.Resources;
