@@ -32,7 +32,9 @@ public class MenuController {
                         m.getName(),
                         m.getFoods(),
                         m.getDrinks(),
-                        m.getAllergens(),
+                        m.getAllergens().stream()
+                                .map(Enum::toString)
+                                .collect(Collectors.toList()),
                         m.getPrice()
                 ))
                 .collect(Collectors.toList());

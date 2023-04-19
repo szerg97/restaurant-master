@@ -1,4 +1,4 @@
-package com.restaurant.orderservice.controller.dto;
+package com.restaurant.apigateway.controller.dto;
 
 import java.util.List;
 

@@ -1,10 +1,7 @@
 package com.restaurant.apigateway.controller;
 
-import com.restaurant.apigateway.controller.dto.DrinkResponse;
-import com.restaurant.apigateway.controller.dto.FoodResponse;
+import com.restaurant.apigateway.controller.dto.*;
 import com.restaurant.apigateway.service.OrderServiceExternal;
-import com.restaurant.apigateway.controller.dto.OrderRequest;
-import com.restaurant.apigateway.controller.dto.OrderResponse;
 import com.restaurant.apigateway.service.WarehouseServiceExternal;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -22,6 +19,11 @@ public class ApiGatewayController {
     public ApiGatewayController(OrderServiceExternal orderServiceExternal, WarehouseServiceExternal warehouseServiceExternal) {
         this.orderServiceExternal = orderServiceExternal;
         this.warehouseServiceExternal = warehouseServiceExternal;
+    }
+
+    @GetMapping("/menu")
+    public List<MenuResponse> getMenus(){
+        return orderServiceExternal.getMenus();
     }
 
     @PostMapping("/order")
