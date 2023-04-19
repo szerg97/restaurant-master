@@ -27,7 +27,6 @@ public class ApiGatewayController {
     }
 
     @PostMapping("/order")
-    @CrossOrigin(origins = "*")
     public OrderResponse placeOrder(
             @RequestBody OrderRequest request){
         return orderServiceExternal.placeOrder(request);
