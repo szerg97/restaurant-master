@@ -5,27 +5,31 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form id="f1" #f1="ngForm" (ngSubmit)="onQuery(f1)">
-    <ion-grid>
-      <ion-row>
-        <ion-col sizeSm="4">
-          <ion-item>
-            <ion-label position="floating">Offset</ion-label>
-            <ion-input type="number" placeholder="000" name="offset" ngModel></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col sizeSm="4">
-          <ion-item>
-            <ion-label position="floating">Limit</ion-label>
-            <ion-input type="number" placeholder="000" name="limit" ngModel></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col sizeSm="4">
-          <ion-button type="submit">Query</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
+  <ion-card>
+    <ion-card-content>
+      <form id="f1" #f1="ngForm" (ngSubmit)="onQuery(f1)">
+        <ion-grid>
+          <ion-row>
+            <ion-col sizeSm="4">
+              <ion-item>
+                <ion-label position="floating">Offset</ion-label>
+                <ion-input type="number" placeholder="000" name="offset" ngModel></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col sizeSm="4">
+              <ion-item>
+                <ion-label position="floating">Limit</ion-label>
+                <ion-input type="number" placeholder="000" name="limit" ngModel></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col sizeSm="4">
+              <ion-button expand="block" type="submit">Query</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-card-content>
+  </ion-card>
   <ion-card *ngFor="let food of foods">
     <ion-card-header>
       <h2>{{ food.name }}</h2>
@@ -33,7 +37,10 @@
     <ion-card-content>
       <p>Identifier: {{ food.id }}</p>
       <p>Quantity: {{ food.quantity }}</p>
-      <p>Date: {{ food.timestamp | date : 'yyyy-MM-dd HH:mm:ss'}}</p>
+      <p>Last refill: {{ food.timestamp | date : 'yyyy-MM-dd HH:mm:ss'}}</p>
+      <ion-badge *ngIf="food.quantity > 50" color="success">Ideal</ion-badge>
+      <ion-badge *ngIf="food.quantity < 50 && food.quantity >= 20" color="warning">Few</ion-badge>
+      <ion-badge *ngIf="food.quantity < 20" color="danger">Refill needed</ion-badge>
     </ion-card-content>
   </ion-card>
 </ion-content>

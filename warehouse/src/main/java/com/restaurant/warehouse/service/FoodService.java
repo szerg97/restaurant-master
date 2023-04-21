@@ -32,7 +32,7 @@ public class FoodService {
             offset = 0;
         }
         if (limit == null){
-            limit = 50;
+            limit = 25;
         }
         return foodDao.selectFoods(offset, limit).stream()
                 .map(f -> new FoodResponse(
