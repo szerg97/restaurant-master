@@ -23,6 +23,54 @@
       "drinks": ["Drink 3", "Drink 4"],
       "allergens": [6],
       "price": 5300
+    },
+    {
+      "id": 4,
+      "name": "Menu D",
+      "foods": ["Food 8", "Food 9"],
+      "drinks": ["Drink 5"],
+      "allergens": [6, 7],
+      "price": 4900
+    },
+    {
+      "id": 5,
+      "name": "Menu E",
+      "foods": ["Food 8", "Food 9"],
+      "drinks": ["Drink 6"],
+      "allergens": [2, 3, 4],
+      "price": 5700
+    },
+    {
+      "id": 6,
+      "name": "Menu F",
+      "foods": ["Food 10", "Food 11", "Food 12"],
+      "drinks": ["Drink 7"],
+      "allergens": [1],
+      "price": 6200
+    },
+    {
+      "id": 7,
+      "name": "Menu G",
+      "foods": ["Food 13", "Food 14", "Food 15", "Food 16"],
+      "drinks": ["Drink 12"],
+      "allergens": [4],
+      "price": 7800
+    },
+    {
+      "id": 8,
+      "name": "Menu H",
+      "foods": ["Food 23", "Food 25"],
+      "drinks": ["Drink 15"],
+      "allergens": [3],
+      "price": 4300
+    },
+    {
+      "id": 9,
+      "name": "Menu I",
+      "foods": ["Food 10", "Food 11", "Food 12"],
+      "drinks": ["Drink 56"],
+      "allergens": [4, 6],
+      "price": 5200
     }
   ]
 }

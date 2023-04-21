@@ -5,16 +5,21 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card *ngFor="let menu of menus">
-    <ion-card-header>
-      <h2>{{ menu.name }}</h2>
-    </ion-card-header>
-    <ion-card-content>
-      <p>{{ menu.foods }}</p>
-      <p>{{ menu.drinks }}</p>
-      <p>{{ menu.allergens}}</p>
-      <p>{{ menu.price}}</p>
-    </ion-card-content>
-  </ion-card>
-  
+  <ion-grid>
+    <ion-row>
+      <ion-col sizeSm="4" *ngFor="let menu of menus">
+        <ion-card >
+          <ion-card-header>
+            <h2>{{ menu.name }}</h2>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ menu.foods }}</p>
+            <p>{{ menu.drinks }}</p>
+            <p>{{ menu.allergens}}</p>
+            <p>{{ menu.price}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>  
 </ion-content>
