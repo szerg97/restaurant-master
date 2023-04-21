@@ -7,6 +7,13 @@
 <ion-content [fullscreen]="true">
   <ion-grid>
     <ion-row>
+      <ion-item lines="none">
+        <ion-label>
+          <h1>Breakfast</h1>
+        </ion-label>
+      </ion-item>
+    </ion-row>
+    <ion-row>
       <ion-col sizeSm="4" *ngFor="let menu of menus">
         <ion-card >
           <ion-card-header>
@@ -16,7 +23,7 @@
             <p>{{ menu.foods }}</p>
             <p>{{ menu.drinks }}</p>
             <p>{{ menu.allergens}}</p>
-            <p>{{ menu.price}}</p>
+            <p><ion-badge color="primary">{{ menu.price}} Ft</ion-badge></p>
           </ion-card-content>
         </ion-card>
       </ion-col>
