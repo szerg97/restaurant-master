@@ -37,8 +37,8 @@ public class ApiGatewayController {
 
     @GetMapping("/foods")
     public List<FoodResponse> getFoods(
-            @RequestParam(name = "offset", required = false) @Min(1) Integer offset,
-            @RequestParam(name = "limit", required = false) @Min(1) @Max(100) Integer limit
+            @RequestParam(name = "offset", required = false) @Min(0) Integer offset,
+            @RequestParam(name = "limit", required = false) @Min(0) @Max(100) Integer limit
     ){
         return warehouseServiceExternal.getFoods(offset, limit);
     }

@@ -22,8 +22,8 @@ public class FoodController {
 
     @GetMapping("")
     public List<FoodResponse> listFoods(
-            @RequestParam(name = "offset", required = false) @Min(1) Integer offset,
-            @RequestParam(name = "limit", required = false) @Min(1) @Max(100) Integer limit) {
+            @RequestParam(name = "offset", required = false) @Min(0) Integer offset,
+            @RequestParam(name = "limit", required = false) @Min(0) @Max(100) Integer limit) {
         return foodService.getFoods(offset, limit);
     }
 

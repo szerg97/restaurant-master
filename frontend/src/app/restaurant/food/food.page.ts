@@ -27,8 +27,11 @@ export class FoodPage implements OnInit {
     if (!form.valid){
       return;
     }
-    const offset = form.value.offset;
+    let offset = form.value.offset;
     const limit = form.value.limit;
+    if (offset == null) {
+      offset = 0;
+    }
     this.foodService.getFoods(offset, limit).subscribe(result => {
       this.foods = result;
       console.log(result);

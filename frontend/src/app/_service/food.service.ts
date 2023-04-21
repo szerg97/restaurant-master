@@ -14,6 +14,19 @@ export class FoodService {
   }
 
   getFoods(offset: number, limit: number){
-    return this.http.get<Food[]>(`${this.baseUrl}/foods?offset=${offset}&limit=${limit}`);
+    return this.http.get<Food[]>(`${this.baseUrl}/foods${this.parsedUrl(offset, limit)}`);
+  }
+
+  private parsedUrl(offset: number, limit: number){
+    if (offset != null && limit != null){
+      return `?offset=${offset}&limit=${limit}`;
+    }
+    else if (offset != null && limit == null){
+      return `?offset=${offset}`;
+    }
+    else if (offset == null && limit != null){
+      return `?limit=${limit}`;
+    }
+    return '';
   }
 }
