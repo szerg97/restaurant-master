@@ -12,10 +12,10 @@ import { IonicModule } from '@ionic/angular';
 export class AppComponent {
   public appPages = [
     { title: 'Home', url: '/restaurant/home', icon: 'home' },
-    { title: 'Order', url: '/restaurant/order', icon: 'trash' },
-    { title: 'Menu', url: '/restaurant/menu', icon: 'paper-plane' },
-    { title: 'Food', url: '/restaurant/food', icon: 'heart' },
-    { title: 'Drink', url: '/restaurant/drink', icon: 'archive' }
+    { title: 'Order', url: '/restaurant/order', icon: 'card' },
+    { title: 'Menu', url: '/restaurant/menu', icon: 'newspaper' },
+    { title: 'Food', url: '/restaurant/food', icon: 'pizza' },
+    { title: 'Drink', url: '/restaurant/drink', icon: 'beer' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   constructor() {}

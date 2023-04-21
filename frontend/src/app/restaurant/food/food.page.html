@@ -1,13 +1,43 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>food</ion-title>
+    <ion-title>Food</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">food</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <form id="f1" #f1="ngForm" (ngSubmit)="onQuery(f1)">
+    <ion-grid>
+      <ion-row>
+        <ion-col sizeSm="6" offsetSm="3">
+          <ion-item>
+            <ion-label position="floating">Offset</ion-label>
+            <ion-input type="number" placeholder="000" name="offset" ngModel></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col sizeSm="6" offsetSm="3">
+          <ion-item>
+            <ion-label position="floating">Limit</ion-label>
+            <ion-input type="number" placeholder="000" name="limit" ngModel></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col sizeSm="6" offsetSm="3">
+          <ion-button type="submit">Query</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  <ion-card *ngFor="let food of foods">
+    <ion-card-header>
+      <h2>{{ food.name }}</h2>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Identifier: {{ food.id }}</p>
+      <p>Quantity: {{ food.quantity }}</p>
+      <p>Date: {{ food.timestamp | date : 'yyyy-MM-dd HH:mm:ss'}}</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
