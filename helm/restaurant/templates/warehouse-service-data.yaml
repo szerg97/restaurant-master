@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: example-volume
+  name: example-volume-wh
   labels:
     type: local
 spec:
@@ -18,7 +18,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: example-claim
+  name: example-claim-wh
 spec:
   storageClassName: standard
   accessModes:
@@ -30,9 +30,9 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-config
+  name: postgres-config-wh
   labels:
-    app: postgres
+    app: postgres-wh
 data:
   POSTGRES_DB: warehouse
   POSTGRES_USER: postgres
@@ -41,17 +41,17 @@ data:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
+  name: postgres-wh
 spec:
-  serviceName: postgres
+  serviceName: postgres-wh
   selector:
     matchLabels:
-      app: postgres
+      app: postgres-wh
   replicas: 1
   template:
     metadata:
       labels:
-        app: postgres
+        app: postgres-wh
     spec:
       containers:
         - name: postgres
@@ -68,17 +68,17 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: example-claim
+            claimName: example-claim-wh
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: postgres-wh
   labels:
-    app: postgres
+    app: postgres-wh
 spec:
   selector:
-    app: postgres
+    app: postgres-wh
   ports:
     - protocol: TCP
       name: http

@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: example-volume-os
+  labels:
+    type: local
+spec:
+  #we use local node storage here!
+  #kubectl get storageclass
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: example-claim-os
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config-os
+  labels:
+    app: postgres-os
+data:
+  POSTGRES_DB: order-service
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-os
+spec:
+  serviceName: postgres-os
+  selector:
+    matchLabels:
+      app: postgres-os
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres-os
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:10.4
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config-os
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: example-claim-os
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-os
+  labels:
+    app: postgres-os
+spec:
+  selector:
+    app: postgres-os
+  ports:
+    - protocol: TCP
+      name: http
+      port: 5432
+      targetPort: 5433

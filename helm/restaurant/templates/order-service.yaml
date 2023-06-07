@@ -37,3 +37,7 @@ spec:
               value: {{ .Values.warehouse.url }}
             - name: LOGGING_ENABLED
               value: {{ .Values.orderService.logging.enabled | quote }}
+            - name: DATASOURCE_URL
+              value: {{ .Values.orderService.data.url }}
+            - name: DATASOURCE_ENABLED
+              value: {{ .Values.orderService.data.enabled | quote }}

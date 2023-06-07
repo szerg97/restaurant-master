@@ -34,6 +34,6 @@ spec:
             - containerPort: 8081
           env:
             - name: DATASOURCE_URL
-              value: {{ .Values.data.url }}
+              value: {{ .Values.warehouse.data.url }}
             - name: DATASOURCE_ENABLED
-              value: {{ .Values.data.enabled | quote }}
+              value: {{ .Values.warehouse.data.enabled | quote }}
