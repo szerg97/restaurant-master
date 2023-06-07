@@ -25,7 +25,7 @@ function cleanup(){
 }
 
 function deployHelmChart(){
-  echo "Deploying HELM chart..."
+  echo "Deploying HELM chart in namespace ${NAMESPACE}..."
 
   cd ./helm/restaurant/
   helm install restaurant . -f values.yaml -n "${NAMESPACE}"
