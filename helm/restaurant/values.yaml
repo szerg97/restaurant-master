@@ -6,7 +6,7 @@ warehouse:
 
 orderService:
   logging:
-    enabled: true
+    enabled: false
   data:
     url: jdbc:postgresql://postgres:5432/order-service
     enabled: true
