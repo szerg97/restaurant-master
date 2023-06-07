@@ -2,7 +2,9 @@
 
 NAMESPACE=$1
 OS_PATH=./order-service
+OS_IMAGE=szalaigeri/order-service:1.0.0
 WH_PATH=./warehouse
+WH_IMAGE=szalaigeri/warehouse:1.0.0
 
 function mvnCleanInstall(){
   cd ${OS_PATH} && mvn clean install -DskipTests && cd ..
@@ -10,12 +12,12 @@ function mvnCleanInstall(){
 }
 
 function dockerBuildPush(){
-  echo "Building warehouse..."
-  docker build ${WH_PATH} -t szalaigeri/warehouse:1.0.0
-  docker push szalaigeri/warehouse:1.0.0
   echo "Building order-service..."
-  docker build ${OS_PATH} -t szalaigeri/order-service:1.0.0
-  docker push szalaigeri/order-service:1.0.0
+  docker build ${OS_PATH} -t ${OS_IMAGE}
+  docker push ${OS_IMAGE}
+  echo "Building warehouse..."
+  docker build ${WH_PATH} -t ${WH_IMAGE}
+  docker push ${WH_IMAGE}
 }
 
 function cleanup(){
