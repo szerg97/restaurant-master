@@ -30,7 +30,12 @@ function deployHelmChart(){
   helm install restaurant . -f values.yaml -n "${NAMESPACE}"
 }
 
+read -p "Build docker images? (Yy): " -r input
+if [[ "$input" =~ [Yy]$ ]]
+then
+    mvnCleanInstall
+    dockerBuildPush
+fi
+
 cleanup
-mvnCleanInstall
-dockerBuildPush
 deployHelmChart
