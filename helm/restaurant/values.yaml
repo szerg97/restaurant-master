@@ -1,12 +1,12 @@
 warehouse:
   url: warehouse-service-internal
   data:
-    url: jdbc:postgresql://postgres:5432/warehouse
+    url: jdbc:postgresql://postgres-wh:5432/warehouse
     enabled: true
 
 orderService:
   logging:
     enabled: true
   data:
-    url: jdbc:postgresql://postgres:5433/order-service
+    url: jdbc:postgresql://postgres-os:5433/order-service
     enabled: true
