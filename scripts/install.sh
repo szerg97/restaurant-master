@@ -26,7 +26,6 @@ function deployHelmChart(){
   echo "Deploying HELM chart..."
 
   cd ./helm/restaurant/
-  pwd
   helm install restaurant . -f values.yaml -n "${NAMESPACE}"
 }
 
